@@ -75,6 +75,10 @@ set CE1 name "CE1"
 set CE1.1 name "CE1"
 
 # define the heads and the tails for TD0, CD0, TE0, and CE0
+# Francois-Yves Dupradeau pointed out to me that this is not
+# necessary, as the head/tail atoms are defined by PyRED in
+# the moL3 file format!
+
 # TD0:
 set TD0 head TD0.1.P
 set TD0 tail TD0.1.O3'
