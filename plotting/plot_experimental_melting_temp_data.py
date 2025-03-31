@@ -12,7 +12,7 @@
 """
 
 import numpy as np 
-from functions_for_plots import *
+from functions_for_plots import set_rcParameters
 
 ################################################################################################
 #
