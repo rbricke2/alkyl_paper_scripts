@@ -30,6 +30,7 @@ def main():
 
     font_leg = set_rcParameters()
     
+    # set figure dimensions
     fig_height = 1.8  
     fig_width  = 3.2
     

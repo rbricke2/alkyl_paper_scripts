@@ -17,20 +17,21 @@ def set_rcParameters():
     font_leg     = font_manager.FontProperties(family="Arial", style='normal', size=font_size)
     widths       = 1
     line_width   = widths+(widths*0.5)
-    rcParameters = {'font.size'        : font_size,     # font size
-                    'font.family'      : "sans-serif",  # specify the font
+    rcParameters = {'font.size'        : font_size,                                  # font size
+                    'font.family'      : "sans-serif",                               # specify the font
                     'font.sans-serif'  : "Arial",
-                    'axes.linewidth'   : widths,        # set width of axes
-                    'xtick.major.width': widths,        # set tick widths
+                    'axes.linewidth'   : widths,                                     # set width of axes
+                    'xtick.major.width': widths,                                     # set tick widths
                     'xtick.minor.width': widths,
                     'ytick.major.width': widths,
                     'ytick.minor.width': widths,
-                    'grid.color'       : 'lightgray',   # set grid color
-                    'grid.linewidth'   : widths,        # set grid width
-                    'grid.linestyle'   : '--',          # dashed grid
-                    'lines.linewidth'  : line_width,    # line width
-                    'patch.linewidth'  : widths,        # legend line width
-                    'axes.axisbelow'   : True}          # plot grid behind data
+                    'grid.color'       : 'lightgray',                                # set grid color
+                    'grid.linewidth'   : widths,                                     # set grid width
+                    'grid.linestyle'   : '--',                                       # dashed grid
+                    'lines.linewidth'  : line_width,                                 # line width
+                    'patch.linewidth'  : widths,                                     # legend line width
+                    'axes.axisbelow'   : True,                                       # plot grid behind data
+                    'axes.prop_cycle'  : plt.cycler("color", plt.cm.Set1.colors)}    # color cycle
     plt.rcParams.update(rcParameters)
     
     return font_leg
@@ -95,11 +96,11 @@ def moving_average(data, max_window_size):
     
     # a list of the number of data points to the LEFT that you put into the window when there
     # aren't enough to make a window of size max_window_size
-    varying_n_data_left = list(range(n_data_left))
+    varying_n_data_left = list(range(n_data_left+1))
     
     # a list of the number of data points to the RIGHT that you put into the window when there
     # aren't enough to make a window of size max_window_size
-    varying_n_data_right = list(reversed(range(n_data_right)))
+    varying_n_data_right = list(reversed(range(n_data_right+1)))
     
     # allows us to iterate varying_n_data_right
     offset = None
