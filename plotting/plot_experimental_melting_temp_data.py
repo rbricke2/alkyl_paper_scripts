@@ -12,7 +12,7 @@
 """
 
 import numpy as np 
-from functions_for_plots import set_rcParameters
+from functions_for_plots import plt, font_manager, set_rcParameters
 
 ################################################################################################
 #
