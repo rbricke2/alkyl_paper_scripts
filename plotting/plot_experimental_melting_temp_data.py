@@ -28,6 +28,7 @@ def main():
     c_unmod  = (1,     0.498, 0.055)
     c_pentyl = (0.941, 0.894, 0.259)
 
+    # set rcParams
     font_leg = set_rcParameters()
     
     # set figure dimensions
@@ -52,11 +53,15 @@ def main():
     plt.bar(n_groups,       group_2, width, color=c_heptyl, edgecolor="black", linewidth=0.8)
     plt.bar(n_groups+width, group_3, width, color=c_decyl,  edgecolor="black", linewidth=0.8)
     plt.xticks(n_groups, ['4PS\nspaced', '2PS\ntogether', '4PS\ntogether']) 
+    
+    # label axes
     plt.xlabel("Position of phosphorothioate") 
     plt.ylabel("Melting Temp. (${}^{\circ}$C)") 
 
+    # give legend information
     plt.legend(["Butyl", "Heptyl", "Decyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg)
 
+    # only show grid for y-axis
     plt.grid(axis='y')
 
     plt.tight_layout()
@@ -82,13 +87,18 @@ def main():
     plt.scatter(x, y2, marker="o", facecolor=c_butyl,  edgecolors='black', linewidth=0.8, s=60)
     plt.scatter(x, y3, marker="X", facecolor=c_pentyl, edgecolors='black', linewidth=0.8, s=60)
     plt.scatter(x, y4, marker="^", facecolor=c_heptyl, edgecolors='black', linewidth=0.8, s=60)
+    
+    # label axes
     plt.xlabel("Number of phosphorothioates") 
     plt.ylabel("Melting Temp. (${}^{\circ}$C)") 
 
+    # give legend information
     plt.legend(["Unmodified", "Butyl", "Pentyl", "Heptyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
 
+    # show minor ticks
     ax.minorticks_on()
 
+    # show grid
     plt.grid()
 
     plt.tight_layout()

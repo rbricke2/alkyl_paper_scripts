@@ -9,7 +9,7 @@
 
 """
    usage: python3 plot_radius_of_gyration.py
-      i. [path to .xvg file outputted by GROMACS utility `gyrate`]
+      i. [path to .xvg file outputted by GROMACS utility `gyrate` that you want to plot]
    
    example: python3 plot_radius_of_gyration.py \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
@@ -36,7 +36,7 @@ def get_time_and_gyrate(paths):
     gyrate = [[] for i in range(len(paths))]
     time   = []
 
-    # iterate over .xvg files passed through command line
+    # iterate over each .xvg file passed via command line
     for i in range(len(paths)):
         file = paths[i]
         with open(file, "r") as f:
@@ -47,7 +47,7 @@ def get_time_and_gyrate(paths):
                 if i == 0:
                     time.append(data[j][0]) # get time (measured in ps)
 
-                gyrate[i].append(data[j][1]) # get radius of gyration of DNA
+                gyrate[i].append(data[j][1]) # get radius of gyration of molecule
 
     time = [t/1000 for t in time] # convert ps -> ns
 
@@ -60,8 +60,11 @@ def get_time_and_gyrate(paths):
 ################################################################################################
 
 def main():
+    # get data from .xvg files
     time, gyrate = get_time_and_gyrate(paths)
-    font_leg     = set_rcParameters()
+    
+    # set rcParams
+    font_leg = set_rcParameters()
 
     # set figure dimensions
     fig_height = 1.55   
@@ -79,7 +82,7 @@ def main():
     plt.ylabel("Radius of Gyration, nm")
 
     # set x-axis limits
-    plt.xlim(-8, 308)
+    plt.xlim(time[0]-8, time[-1]+8)
 
     # show grid
     plt.grid()

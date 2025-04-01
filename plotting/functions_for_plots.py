@@ -63,13 +63,14 @@ def moving_average(data, max_window_size):
         The moving average is calculated with a varying window size to:
             (i)  force the initial data point to be plotted (the initial configuration of all DNA
                  models are generated from the same structure, meaning that all DNAs initially
-                 have a similar value in the original series... we want this to be shown in our
-                 plots); and
+                 have a similar value, e.g. radius of gyration value, in the original series...
+                 we want this to be shown in our plots); and
             (ii) keep the size of the output series the same as the original series.
         
         In the first iteration, the window size = 1.
         In each following iteration, the window size will increase by two (i.e. increase the number of
-        elements we take from both the left and the right by one) until the window size = max_window_size.
+        elements we take from both the left and the right of the i-th element by one) until the window
+        size = max_window_size.
         When we approach the rightmost boundary of the original data series and the window size can no
         longer equal max_window_size, we decrease the window size by one (i.e. decrease the number of
         elements we take from the right by one) each iteration.
@@ -81,7 +82,8 @@ def moving_average(data, max_window_size):
                                                    the moving average
 
         Returns:
-            moving_averages (list[float])        : series of averages of data
+            moving_averages (list[float])        : series of averages of data (same size as the input
+                                                   series)
     """
 
     moving_averages = []
