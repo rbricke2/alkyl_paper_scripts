@@ -17,34 +17,34 @@ source leaprc.q4mdfft
 # Load pdb files of DNA models
 
 # double-stranded unmodified
-dsDNA1 = loadpdb dsDNA_scenario1.pdb
+dsDNA1 = loadpdb ./input_pdbs/dsDNA_scenario1.pdb
 
 # double-stranded 4 decyl together
-dsDNA2 = loadpdb dsDNA_scenario2.pdb
+dsDNA2 = loadpdb ./input_pdbs/dsDNA_scenario2.pdb
 
 # double-stranded 4 decyl spaced out
-dsDNA3 = loadpdb dsDNA_scenario3.pdb
+dsDNA3 = loadpdb ./input_pdbs/dsDNA_scenario3.pdb
 
 # double-stranded 10 decyl
-dsDNA4 = loadpdb dsDNA_scenario4.pdb
+dsDNA4 = loadpdb ./input_pdbs/dsDNA_scenario4.pdb
 
 # double-stranded 10 ethyl
-dsDNA5 = loadpdb dsDNA_scenario5.pdb
+dsDNA5 = loadpdb ./input_pdbs/dsDNA_scenario5.pdb
 
 # single-stranded unmodified
-ssDNA1 = loadpdb ssDNA_scenario1.pdb
+ssDNA1 = loadpdb ./input_pdbs/ssDNA_scenario1.pdb
 
 # single-stranded 4 decyl together
-ssDNA2 = loadpdb ssDNA_scenario2.pdb
+ssDNA2 = loadpdb ./input_pdbs/ssDNA_scenario2.pdb
 
 # single-stranded 4 decyl spaced out
-ssDNA3 = loadpdb ssDNA_scenario3.pdb
+ssDNA3 = loadpdb ./input_pdbs/ssDNA_scenario3.pdb
 
 # single-stranded 10 decyl
-ssDNA4 = loadpdb ssDNA_scenario4.pdb
+ssDNA4 = loadpdb ./input_pdbs/ssDNA_scenario4.pdb
 
 # single-stranded 10 ethyl
-ssDNA5 = loadpdb ssDNA_scenario5.pdb
+ssDNA5 = loadpdb ./input_pdbs/ssDNA_scenario5.pdb
 
 ###############################################
 # Check for internal inconsistencies, such as long/short bonds,
