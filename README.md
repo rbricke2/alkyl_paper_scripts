@@ -1,3 +1,7 @@
+# Overview 
+
+A collection of scripts used for the paper.
+
 # Overview of directories
 
 * `tleap/`: Includes tleap scripts used to make .pdb, .parm7, and .crd files of the DNA models.
