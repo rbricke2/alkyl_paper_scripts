@@ -1,6 +1,6 @@
 # Overview 
 
-A collection of scripts used to make figures for the paper.
+A collection of scripts used to make plots for the paper.
 
 # Programs
 
