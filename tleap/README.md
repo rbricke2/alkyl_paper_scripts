@@ -1,6 +1,6 @@
 # Overview 
 
-A collection of tLeAp scripts used to generate topology and coordinate files for the DNA models.
+A collection of tLEaP scripts used to generate topology and coordinate files for the DNA models.
 
 # Scripts
 
