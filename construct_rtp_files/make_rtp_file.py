@@ -406,12 +406,12 @@ def main():
     for i in range(len(dimethyl_alkyl_phosphates)):
         for residue in deoxyribonucleosides:
             # CGenFF input (.mol2 files)
-            dimethyl_alkyl_phosphate_mol2    = dimethyl_alkyl_phosphates[i] + ".mol2"
-            deoxyribonucleoside_mol2         = residue + ".mol2"
+            dimethyl_alkyl_phosphate_mol2    = "rtp_mol2_files/" + dimethyl_alkyl_phosphates[i] + ".mol2"
+            deoxyribonucleoside_mol2         = "rtp_mol2_files/" + residue + ".mol2"
 
             # CGenFF output (.rtp files)
-            dimethyl_alkyl_phosphate_rtp     = dimethyl_alkyl_phosphates[i] + ".rtp"
-            deoxyribonucleoside_rtp          = residue + ".rtp"
+            dimethyl_alkyl_phosphate_rtp     = "rtp_mol2_files/" + dimethyl_alkyl_phosphates[i] + ".rtp"
+            deoxyribonucleoside_rtp          = "rtp_mol2_files/" + residue + ".rtp"
             
             # modify .rtp files so that they are ready for merging
             new_deoxyribonucleoside_rtp      = prepare_rtp_file_for_merging(deoxyribonucleoside_rtp, deoxyribonucleoside_mol2, deoxyribonucleosides[residue])
