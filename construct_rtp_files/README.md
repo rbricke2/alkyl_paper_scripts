@@ -1,7 +1,7 @@
 
 # Overview 
 
-Script used to construct the `.rtp` files used for CHARMM36 simulations that define the residue topology of the non-standard nucleotide fragments.
+Script used to construct the `.rtp` files used for CHARMM36 GROMACS simulations that define the residue topology of the non-standard nucleotide fragments.
 
 # Script
 
