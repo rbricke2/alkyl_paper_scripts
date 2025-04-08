@@ -31,6 +31,7 @@ def set_rcParameters():
                     'lines.linewidth'  : line_width,                                 # line width
                     'patch.linewidth'  : widths,                                     # legend line width
                     'axes.axisbelow'   : True,                                       # plot grid behind data
+                    'axes.titlesize'   : font_size,                                  # font size of plot title
                     'axes.prop_cycle'  : plt.cycler("color", plt.cm.Set1.colors)}    # color cycle
     plt.rcParams.update(rcParameters)
     
