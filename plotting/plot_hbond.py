@@ -29,6 +29,7 @@ import sys
 import numpy as np 
 from functions_for_plots import *
 import matplotlib as mpl
+import statistics
 
 # command line input
 input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)", ")")
@@ -152,12 +153,24 @@ def get_n_broken_hbond(hbond_bool_matrix, stop_residue_id=None):
             n_broken_hbond[scenario].append(broken_hbond_count)
 
     return n_broken_hbond
+    
+def get_avg_dist_per_conf(distances, stop_residue_id=None):  
+    dist_avg = [ [] for scenario in range(len(distances)) ]
+    
+    # loop over scenarios
+    for scenario in range(len(distances)):
+
+        # loop over configurations
+        for conf in range(len(distances[scenario])):
+            
+            if stop_residue_id == None:
+                stop_residue_id = len(distances[scenario][conf])
+
+            dist_avg[scenario].append(statistics.mean(distances[scenario][conf][:stop_residue_id]))
+    
+    return dist_avg
 
 def plot_color_map(time, hbond_bool_matrix, font_leg):
-    # hbond exists if:
-    #     distance <= 0.35 nm
-    #     angle    <= 30 degrees
-
     font_size   = font_leg.get_size()
     font_family = font_leg.get_family()[0]
 
@@ -221,6 +234,37 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     # save figure
     plt.savefig("colormap_hbond_binary.png", bbox_inches="tight", dpi=600)
 
+def plot_data(x, y, x_label, y_label, title, legend, file_name, fig_width, fig_height):
+    # set rcParams
+    font_leg = set_rcParameters()
+
+    # set figure dimensions
+    fig, ax     = plt.subplots(1, figsize=(fig_width, fig_height))
+
+    # plot data
+    for i in range(len(y)):
+        plt.plot(x, moving_average(moving_average(y[i], 500), 100), label=legend[i])
+
+    # position legend to the left
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
+
+    # set x-axis label
+    plt.xlabel(x_label)
+        
+    # set y-axis label
+    plt.ylabel(y_label)
+
+    # set title
+    if title != None:
+        plt.title(title)
+
+    # show grid
+    plt.grid()
+
+    plt.tight_layout()
+
+    # save figure
+    plt.savefig(file_name, bbox_inches="tight", dpi=600)
 
 ################################################################################################
 #
@@ -229,6 +273,8 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
 ################################################################################################
 
 def main():
+    stop_residue_id = 6   # first six residues
+    
     # get data from .xvg files
     time, distances   = get_dist(paths, dist_xvg)
     angles            = get_angle(paths, ang_xvg)
@@ -240,6 +286,36 @@ def main():
 
     # plot boolean color map
     plot_color_map(time, hbond_bool_matrix, font_leg)
+    
+    # plot other data as function of time
+    x_label = "Time, ns"
+    plot_data(time,
+              n_broken_hbond,
+              x_label,
+              "Number of broken\nhydrogen bonds",
+              "Entire Duplex (Parmbsc1)",
+              legend,
+              "melted_hbond_vs_time.png",
+              5,
+              5)
+    plot_data(time,
+              get_avg_dist_per_conf(distances, stop_residue_id),
+              x_label,
+              r"$\langle r \rangle$, nm",
+              "First Six Base Pairs (Parmbsc1)",
+              legend,
+              "distance_vs_time_terminal.png",
+              5,
+              5)
+    plot_data(time,
+              get_n_broken_hbond(hbond_bool_matrix, stop_residue_id),
+              x_label,
+              "Number of broken\nhydrogen bonds",
+              "First Six Base Pairs (Parmbsc1)",
+              legend,
+              "melted_hbond_vs_time_terminal.png",
+              5,
+              5)
 
 if __name__ == "__main__": 
     main()
