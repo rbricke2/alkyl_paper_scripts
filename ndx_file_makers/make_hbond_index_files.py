@@ -119,7 +119,7 @@ def make_hbond_index_files(input_gro_file_path, max_residue_id, output_dir):
                 # thus, use the atom id of the nitrogen atom in the first strand to obtain the atom id of the hydrogen atom
                 output.write(str(int(first_strand_ids[i])+1) + " " + first_strand_ids[i] + " " + second_strand_ids[i] + "\n")
             else:
-                # else, the nucleobase of the second strand is guanine or thymine and the second strand contains the donor/hydrogen;
+                # else, the nucleobase of the second strand is guanine or thymine, meaning that the second strand contains the donor/hydrogen;
                 # thus, use the atom id of the nitrogen atom in the second strand to obtain the atom id of the hydrogen atom
                 output.write(str(int(second_strand_ids[i])+1) + " " + second_strand_ids[i] + " " + first_strand_ids[i] + "\n")
 
