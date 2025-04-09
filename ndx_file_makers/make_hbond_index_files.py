@@ -14,7 +14,7 @@
 
 """
    usage: python3 make_hbond_index_files.py
-      1. [path to .gro file outputted after minimization]
+      1. [path to .gro file outputted by the mdrun that carried out energy minimization]
       2. [number of base pairs in duplex]
       3. [output directory]
    
