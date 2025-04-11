@@ -173,9 +173,9 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     font_size   = font_leg.get_size()
     font_family = font_leg.get_family()[0]
 
-    # figure dimensions
-    fig_height = 1  
-    fig_width  = 7.5
+    # figure dimensions  
+    fig_width  = 8.7
+    fig_height = (fig_width/7.5)
 
     # initialize figure
     fig, axes  = plt.subplots(nrows=1, ncols=len(hbond_bool_matrix), sharey=True, figsize=(fig_width, fig_height))
