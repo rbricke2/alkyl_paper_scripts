@@ -3,6 +3,7 @@
 # Author: Rachel Bricker
 
 import matplotlib.pyplot as plt
+import statistics
 import matplotlib.font_manager as font_manager
 
 def set_rcParameters():

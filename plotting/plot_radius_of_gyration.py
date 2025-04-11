@@ -91,6 +91,10 @@ def main():
 
     # save figure
     plt.savefig("fig4_gyrate.svg", bbox_inches="tight", dpi=600)
+    
+    # print statistics
+    for i in range(len(gyrate)):
+        print("Average value for file " + str(i+1) + ": " + str(round(statistics.mean(gyrate[i]),3)) + " +/- " + str(round(statistics.stdev(gyrate[i]),3)))
 
 if __name__ == "__main__": 
     main()

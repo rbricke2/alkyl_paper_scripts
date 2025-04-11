@@ -29,7 +29,6 @@ import sys
 import numpy as np 
 from functions_for_plots import *
 import matplotlib as mpl
-import statistics
 
 # command line input
 input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)", ")")
@@ -232,7 +231,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     #plt.tight_layout()
 
     # save figure
-    plt.savefig("colormap_hbond_binary.png", bbox_inches="tight", dpi=600)
+    plt.savefig("colormap_hbond_binary.svg", bbox_inches="tight", dpi=600)
 
 def plot_data(x, y, x_label, y_label, title, legend, file_name, fig_width, fig_height):
     # set rcParams
@@ -288,34 +287,37 @@ def main():
     plot_color_map(time, hbond_bool_matrix, font_leg)
     
     # plot other data as function of time
-    x_label = "Time, ns"
+    x_label     = "Time, ns"
+    fig_width   = 5
+    golden_mean = (np.sqrt(5)-1.0)/2.0     # aesthetic ratio
+    fig_height  = fig_width*golden_mean    # height in inches
     plot_data(time,
               n_broken_hbond,
               x_label,
               "Number of broken\nhydrogen bonds",
               "Entire Duplex (Parmbsc1)",
               legend,
-              "melted_hbond_vs_time.png",
-              5,
-              5)
+              "melted_hbond_vs_time.svg",
+              fig_width,
+              fig_height)
     plot_data(time,
               get_avg_dist_per_conf(distances, stop_residue_id),
               x_label,
               r"$\langle r \rangle$, nm",
               "First Six Base Pairs (Parmbsc1)",
               legend,
-              "distance_vs_time_terminal.png",
-              5,
-              5)
+              "distance_vs_time_terminal.svg",
+              fig_width,
+              fig_height)
     plot_data(time,
               get_n_broken_hbond(hbond_bool_matrix, stop_residue_id),
               x_label,
               "Number of broken\nhydrogen bonds",
               "First Six Base Pairs (Parmbsc1)",
               legend,
-              "melted_hbond_vs_time_terminal.png",
-              5,
-              5)
+              "melted_hbond_vs_time_terminal.svg",
+              fig_width,
+              fig_height)
 
 if __name__ == "__main__": 
     main()
