@@ -181,7 +181,8 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     fig, axes  = plt.subplots(nrows=1, ncols=len(hbond_bool_matrix), sharey=True, figsize=(fig_width, fig_height))
 
     # helpful for 2d color plots: https://www.geeksforgeeks.org/create-2d-pixel-plot-in-python/
-    cmap = mpl.colors.ListedColormap([(0.827, 0.933, 1), (0.827, 0.161, 0.102)])
+    #cmap = mpl.colors.ListedColormap([(0.827, 0.933, 1), (0.827, 0.161, 0.102)])
+    cmap = mpl.colors.ListedColormap([(0.922, 0.922, 0.922), (0.62, 0.192, 0.961)])
 
     for scenario in range(len(hbond_bool_matrix)):
         Z = hbond_bool_matrix[scenario]
@@ -318,6 +319,10 @@ def main():
               "melted_hbond_vs_time_terminal.svg",
               fig_width,
               fig_height)
+    
+    # print statistics
+    for i in range(len(n_broken_hbond)):
+        print("Average number of melted hydrogen bonds for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),3)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),3)))
 
 if __name__ == "__main__": 
     main()

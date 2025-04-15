@@ -94,7 +94,10 @@ def main():
     
     # print statistics
     for i in range(len(gyrate)):
-        print("Average value for file " + str(i+1) + ": " + str(round(statistics.mean(gyrate[i]),3)) + " +/- " + str(round(statistics.stdev(gyrate[i]),3)))
+        print("Average radius of gyration value for file " + str(i+1) + ": " + str(round(statistics.mean(gyrate[i]),3)) + " +/- " + str(round(statistics.stdev(gyrate[i]),3)))
+        
+    for i in range(len(gyrate)):
+        print("Average radius of gyration value for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(gyrate[i][4000:]),3)) + " +/- " + str(round(statistics.stdev(gyrate[i][4000:]),3)))
 
 if __name__ == "__main__": 
     main()
