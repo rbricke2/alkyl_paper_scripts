@@ -76,10 +76,10 @@ def main():
         plt.plot(time, moving_average(moving_average(gyrate[i], 500), 100))
 
     # set x-axis label
-    plt.xlabel("Time, ns")
+    plt.xlabel("Time (ns)")
         
     # set y-axis label
-    plt.ylabel("Radius of Gyration, nm")
+    plt.ylabel("Radius of Gyration (nm)")
 
     # set x-axis limits
     plt.xlim(time[0]-8, time[-1]+8)

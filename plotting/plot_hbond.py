@@ -288,7 +288,7 @@ def main():
     plot_color_map(time, hbond_bool_matrix, font_leg)
     
     # plot other data as function of time
-    x_label     = "Time, ns"
+    x_label     = "Time (ns)"
     fig_width   = 5
     golden_mean = (np.sqrt(5)-1.0)/2.0     # aesthetic ratio
     fig_height  = fig_width*golden_mean    # height in inches
@@ -304,7 +304,7 @@ def main():
     plot_data(time,
               get_avg_dist_per_conf(distances, stop_residue_id),
               x_label,
-              r"$\langle r \rangle$, nm",
+              r"$\langle r \rangle$ (nm)",
               "First Six Base Pairs (Parmbsc1)",
               legend,
               "distance_vs_time_terminal.svg",
