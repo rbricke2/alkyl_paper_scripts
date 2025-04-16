@@ -288,7 +288,7 @@ def main():
     plot_color_map(time, hbond_bool_matrix, font_leg)
     
     # plot other data as function of time
-    x_label     = "Time (ns)"
+    x_label     = "Simulation time (ns)"
     fig_width   = 5
     golden_mean = (np.sqrt(5)-1.0)/2.0     # aesthetic ratio
     fig_height  = fig_width*golden_mean    # height in inches
