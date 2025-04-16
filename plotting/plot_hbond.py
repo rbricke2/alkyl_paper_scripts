@@ -322,7 +322,7 @@ def main():
     
     # print statistics
     for i in range(len(n_broken_hbond)):
-        print("Average number of melted hydrogen bonds for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),3)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),3)))
+        print("Average number of melted hydrogen bonds for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),2)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),2)))
 
 if __name__ == "__main__": 
     main()
