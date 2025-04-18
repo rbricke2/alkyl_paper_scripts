@@ -98,11 +98,11 @@ def moving_average(data, max_window_size):
     # max_window_size
     n_data_right = max_window_size-1-max_window_size//2
     
-    # a list of the number of data points to the LEFT that you put into the window when there
+    # list of the number of data points to the LEFT that you put into the window when there
     # aren't enough to make a window of size max_window_size
     varying_n_data_left = list(range(n_data_left+1))
     
-    # a list of the number of data points to the RIGHT that you put into the window when there
+    # list of the number of data points to the RIGHT that you put into the window when there
     # aren't enough to make a window of size max_window_size
     varying_n_data_right = list(reversed(range(n_data_right+1)))
     
