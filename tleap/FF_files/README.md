@@ -8,7 +8,7 @@ Program: GAUSSIAN16 (Rev. C.01)
 
 Charge model: RESP-A1 (HF/6-31G(d)//HF/6-31G(d); Connolly algo.  2 RESP fit(*1)  qwt=.0005/.0010)
 
-Force field: Parmbsc1 with CUFIX corrections
+Force field: <cite>[Parmbsc1][2]</cite> with <cite>[CUFIX][3]</cite> corrections
 
 # Force field files
 
@@ -22,3 +22,5 @@ Force field: Parmbsc1 with CUFIX corrections
 * `CT-A_m6-c1_m4-c1.mol2`: Force field file of a central cytosine fragment containing a decyl-phosphate group. The modification is located on the non-bridging oxygen atom `OP1`.
 
 [1]: https://upjv.q4md-forcefieldtools.org/REDServer-Development/
+[2]: https://doi.org/10.1038/nmeth.3658
+[3]: https://doi.org/10.1039/C7CP08185E
