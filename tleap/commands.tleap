@@ -111,7 +111,7 @@ savepdb ssDNA4 ssDNA_scenario4_AMBER.pdb
 savepdb ssDNA5 ssDNA_scenario5_AMBER.pdb
 
 ###############################################
-# Produce .parm7 and .crd files
+# Produce .parm7 and .crd files for AMBER simulations
 
 saveAmberParm dsDNA2 dsDNA2.parm7 dsDNA2.crd
 saveAmberParm dsDNA3 dsDNA3.parm7 dsDNA3.crd
