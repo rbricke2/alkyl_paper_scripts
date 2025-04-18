@@ -29,6 +29,7 @@ import sys
 import numpy as np 
 from functions_for_plots import *
 import matplotlib as mpl
+from matplotlib.ticker import FixedLocator
 
 # command line input
 input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)", ")")
@@ -202,9 +203,13 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
 
         axes[scenario].set_title(legend[scenario])
 
-        # set tick frequency on x- and y-axis
-        axes[scenario].set_yticks(np.arange(ybottom, ytop, 100))
-        axes[scenario].set_xticks(np.arange(xleft, xright, 4))
+        # set tick frequency on x- and y-axis and center ticks on row/column
+        half_time_step = time_step/2
+        axes[scenario].set_yticks(np.arange(ybottom+half_time_step, ytop+half_time_step, 100), np.arange(ybottom, ytop, 100, dtype=int))
+        axes[scenario].set_xticks(np.arange(xleft+0.5, xright+0.5, 4), np.arange(xleft, xright, 4))
+        
+        # set minor tick locations on the x-axis
+        axes[scenario].xaxis.set_minor_locator(FixedLocator(np.arange(xleft+0.5, xright+0.5, 1)))
 
         if scenario == len(hbond_bool_matrix)//2:
             axes[scenario].set_xlabel("Base pair")
@@ -216,7 +221,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
 
     # set y-axis label
-    plt.ylabel("Time (ns)")
+    plt.ylabel("Simulation time (ns)")
 
     # color bar
     cbar = fig.colorbar(pixel_plot, ax=axes.ravel().tolist(), ticks=[0,1], pad=0.02, aspect=10)
@@ -322,7 +327,7 @@ def main():
     
     # print statistics
     for i in range(len(n_broken_hbond)):
-        print("Average number of melted hydrogen bonds for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),2)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),2)))
+        print("Average number of melted hydrogen bonds for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),1)))
 
 if __name__ == "__main__": 
     main()
