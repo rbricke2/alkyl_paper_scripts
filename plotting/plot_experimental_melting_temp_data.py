@@ -56,7 +56,7 @@ def main():
     
     # label axes
     plt.xlabel("Position of phosphorothioate") 
-    plt.ylabel("Melting Temp. (${}^{\circ}$C)") 
+    plt.ylabel("Melting temp. (${}^{\circ}$C)") 
 
     # give legend information
     plt.legend(["Butyl", "Heptyl", "Decyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg)
@@ -90,7 +90,7 @@ def main():
     
     # label axes
     plt.xlabel("Number of phosphorothioates") 
-    plt.ylabel("Melting Temp. (${}^{\circ}$C)") 
+    plt.ylabel("Melting temp. (${}^{\circ}$C)") 
 
     # give legend information
     plt.legend(["Unmodified", "Butyl", "Pentyl", "Heptyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
