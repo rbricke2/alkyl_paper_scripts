@@ -21,6 +21,6 @@ Force field: <cite>[Parmbsc1][2]</cite> with <cite>[CUFIX][3]</cite> corrections
 * `CT-A_m6-c1_m2-c1.mol2`: Force field file of a central thymine fragment containing a decyl-phosphate group. The modification is located on the non-bridging oxygen atom `OP1`.
 * `CT-A_m6-c1_m4-c1.mol2`: Force field file of a central cytosine fragment containing a decyl-phosphate group. The modification is located on the non-bridging oxygen atom `OP1`.
 
-[1]: https://upjv.q4md-forcefieldtools.org/REDServer-Development/
+[1]: https://doi.org/10.1093/nar/gkr288
 [2]: https://doi.org/10.1038/nmeth.3658
 [3]: https://doi.org/10.1039/C7CP08185E
