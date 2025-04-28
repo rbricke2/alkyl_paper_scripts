@@ -4,7 +4,7 @@
 """
 
 """
-    Plots Soumya's experimental data
+    Plots experimental data obtained by Soumya Chandrasekhar.
 """
 
 """
