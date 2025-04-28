@@ -9,6 +9,6 @@ Script used to construct the `.rtp` files used for CHARMM36 GROMACS simulations 
 
 # Directories
 
-* `rtp_mol2_files/`: Includes the `.mol2` files used as input for CGenFF and the `.rtp` files outputted by <cite>[CGenFF][1]</cite> (located in the GROMACS format file). The input `.mol2` files are needed to recover the atom names.
+* `rtp_mol2_files/`: Includes the `.mol2` files used as input for CGenFF and the `.rtp` files outputted by the <cite>[CGenFF server][1]</cite> (located in the GROMACS format file). The input `.mol2` files are needed to recover the atom names.
 
 [1]: https://doi.org/10.1002/jcc.21367
