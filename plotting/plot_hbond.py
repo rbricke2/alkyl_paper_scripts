@@ -8,19 +8,19 @@
 """
 
 """
-   usage: python3 plot_radius_of_gyration.py
+   usage: python3 plot_hbond.py
       1. [list of scenario names for legend (must be parallel w.r.t the arguments i, ..., i+n)]
       2. [name of .xvg file outputted by GROMACS utility `distance`]
       3. [name of .xvg file outputted by GROMACS utility `angle`]
       i. [path to directories that contain arguments (2.) and (3.) that you want to plot]
    
    example: python3 plot_hbond.py \
-            "unmodified,4 decyls\n(together),4 decyls\n(spaced out),10 decyls,10 ethyls" \
+            "(a),(b),(c),(d),(e)" \
             hbond.xvg \
             hbond_angle.xvg \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
 """
@@ -211,6 +211,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
         # set minor tick locations on the x-axis
         axes[scenario].xaxis.set_minor_locator(FixedLocator(np.arange(xleft+0.5, xright+0.5, 1)))
 
+        # put x-axis label on centermost plot
         if scenario == len(hbond_bool_matrix)//2:
             axes[scenario].set_xlabel("Base pair")
 
@@ -237,39 +238,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     #plt.tight_layout()
 
     # save figure
-    plt.savefig("colormap_hbond_binary.svg", bbox_inches="tight", dpi=600)
-
-def plot_data(x, y, x_label, y_label, title, legend, file_name, fig_width, fig_height):
-    # set rcParams
-    font_leg = set_rcParameters()
-
-    # set figure dimensions
-    fig, ax     = plt.subplots(1, figsize=(fig_width, fig_height))
-
-    # plot data
-    for i in range(len(y)):
-        plt.plot(x, moving_average(moving_average(y[i], 500), 100), label=legend[i])
-
-    # position legend to the left
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
-
-    # set x-axis label
-    plt.xlabel(x_label)
-        
-    # set y-axis label
-    plt.ylabel(y_label)
-
-    # set title
-    if title != None:
-        plt.title(title)
-
-    # show grid
-    plt.grid()
-
-    plt.tight_layout()
-
-    # save figure
-    plt.savefig(file_name, bbox_inches="tight", dpi=600)
+    plt.savefig("colorplot_hbond_binary.svg", bbox_inches="tight", dpi=600)
 
 ################################################################################################
 #

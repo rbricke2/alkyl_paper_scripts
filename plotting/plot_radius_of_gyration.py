@@ -13,8 +13,8 @@
    
    example: python3 plot_radius_of_gyration.py \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA2/gyrate.xvg \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA3/gyrate.xvg \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA2/gyrate.xvg \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA4/gyrate.xvg \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA5/gyrate.xvg
 """
@@ -67,8 +67,8 @@ def main():
     font_leg = set_rcParameters()
 
     # set figure dimensions
-    fig_height = 1.55   
-    fig_width  = 2.825
+    fig_height = 1.57   
+    fig_width  = 3
     fig, ax    = plt.subplots(1, figsize=(fig_width, fig_height))
 
     # plot data

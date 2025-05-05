@@ -149,3 +149,35 @@ def moving_average(data, max_window_size):
             moving_averages.append(window_avg)
 
     return moving_averages
+    
+def plot_data(x, y, x_label, y_label, title, legend, file_name, fig_width, fig_height):
+    # set rcParams
+    font_leg = set_rcParameters()
+
+    # set figure dimensions
+    fig, ax = plt.subplots(1, figsize=(fig_width, fig_height))
+
+    # plot data
+    for i in range(len(y)):
+        plt.plot(x, moving_average(moving_average(y[i], 500), 100), label=legend[i])
+
+    # position legend to the left
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
+
+    # set x-axis label
+    plt.xlabel(x_label)
+        
+    # set y-axis label
+    plt.ylabel(y_label)
+
+    # set title
+    if title != None:
+        plt.title(title)
+
+    # show grid
+    plt.grid()
+
+    plt.tight_layout()
+
+    # save figure
+    plt.savefig(file_name, bbox_inches="tight", dpi=600)
