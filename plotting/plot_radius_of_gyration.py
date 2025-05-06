@@ -9,7 +9,7 @@
 
 """
    usage: python3 plot_radius_of_gyration.py
-      i. [path to .xvg file outputted by GROMACS utility `gyrate` that you want to plot]
+      i. path to .xvg file outputted by GROMACS utility `gyrate` that you want to plot
    
    example: python3 plot_radius_of_gyration.py \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \

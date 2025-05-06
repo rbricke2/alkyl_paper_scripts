@@ -9,10 +9,10 @@
 
 """
    usage: python3 plot_hbond.py
-      1. [list of scenario names for legend (must be parallel w.r.t the arguments i, ..., i+n)]
-      2. [name of .xvg file outputted by GROMACS utility `distance`]
-      3. [name of .xvg file outputted by GROMACS utility `angle`]
-      i. [path to directories that contain arguments (2.) and (3.) that you want to plot]
+      1. list of scenario names for legend (must be parallel w.r.t the arguments i, ..., i+n)
+      2. name of .xvg file outputted by GROMACS utility `distance`
+      3. name of .xvg file outputted by GROMACS utility `angle`
+      i. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    example: python3 plot_hbond.py \
             "(a),(b),(c),(d),(e)" \

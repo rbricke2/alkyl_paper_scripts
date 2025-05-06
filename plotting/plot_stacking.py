@@ -149,35 +149,6 @@ def get_data(paths, com_dir, vec_dir):
 
     return time, stacking_coords
 
-def get_n_broken_stacking(stacking_coords, max_strand_len=21):
-    # records the number of broken stacked bases for each scenario for each configuration
-    n_broken_stacking = [ [] for scenario in range(len(stacking_coords)) ]
-    
-    # will allow us to determine if we are at the last recorded stacking coordinate of a strand
-    n_stacking_coord_per_strand = max_strand_len-1
-    
-    # transient point, measured in nm, that separates the pools of the stacked and unstacked configurations
-    transient_pt = 0.6
-
-    # loop over scenarios
-    for scenario in range(len(stacking_coords)):
-
-        # loop over time
-        for t in range(len(stacking_coords[scenario])):
-
-            count = 0   # tracks the number of broken stacking
-     
-            # loop over recorded stacking coordinates, xi, at time 't'
-            for coord_itr in range(len(stacking_coords[scenario][t])):
-                coord_value = stacking_coords[scenario][t][coord_itr]
-                if coord_value > transient_pt:
-                    # stacking is broken if xi > 0.6 nm
-                    count += 1
-            
-            n_broken_stacking[scenario].append(count)
-
-    return n_broken_stacking
-
 def analyze_data(stacking_coords, max_strand_len=21):
     # records the number of consecutively stacked bases for each scenario for each configuration
     consecutive_stacked = [ [ [] for t in range(len(stacking_coords[scenario])) ] for scenario in range(len(stacking_coords)) ]
@@ -283,8 +254,7 @@ def main():
     # set rcParams
     font_leg = set_rcParameters()
     
-    # plot other data as function of time
-    x_label     = "Simulation time (ns)"
+    # set figure dimensions
     fig_width   = 5
     golden_mean = (np.sqrt(5)-1.0)/2.0     # aesthetic ratio
     fig_height  = fig_width*golden_mean    # height in inches
@@ -292,7 +262,7 @@ def main():
     # plot the data
     plot_data(time,
               n_broken_stacking,
-              x_label,
+              "Simulation time (ns)",
               "Number of broken stacking",
               "Simulated Annealing",
               legend,
@@ -304,7 +274,10 @@ def main():
     
     # print statistics
     for i in range(len(n_broken_stacking)):
-        print("Average number of broken stacking for file " + str(i+1) + " : " + str(round(statistics.mean(n_broken_stacking[i]),2)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i]),2)))
+        print("Average number of broken stacking for file " + str(i+1) + ": " + str(round(statistics.mean(n_broken_stacking[i]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i]),1)))
+        
+    for i in range(len(n_broken_stacking)):
+        print("Average number of broken stacking for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_stacking[i][12000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i][12000:]),1)))
 
 if __name__ == "__main__": 
     main()
