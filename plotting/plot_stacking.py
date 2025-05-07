@@ -12,9 +12,9 @@
 
     The plane of a nucleotide was determined using the definition presented by the Turner group [2]. That is, the plane of a nucleotide
     is defined by two vectors, $a$ and $b$, whose cross products $a \times b$ and $b \times a$ define each base’s normal vectors. For purines,
-    $a$ is defined from the center of mass to the C8 atom and $b$ is defined from the center of mass to the nitrogen (resp. oxygen) group in adenine
-    (resp. guanine) attached to the C6 atom. For pyrimidines, $a$ is defined from the center of mass to the oxygen group attached to the C2 atom
-    and $b$ is defined from the center of mass to the oxygen (resp. nitrogen) group in thymine (resp. cytosine) attached to the C4 atom. The atoms are
+    $a$ is defined from the center of mass to the C8 atom and $b$ is defined from the center of mass to the nitrogen (resp. oxygen) attached to
+    the C6 atom in adenine (resp. guanine). For pyrimidines, $a$ is defined from the center of mass to the oxygen group attached to the C2 atom
+    and $b$ is defined from the center of mass to the oxygen (resp. nitrogen) attached to the C4 atom in thymine (resp. cytosine). The atoms are
     surrounded by asterisk symbols in the below images.
     
             THYMINE                                          CYTOSINE
