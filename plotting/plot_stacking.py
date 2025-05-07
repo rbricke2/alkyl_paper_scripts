@@ -66,12 +66,14 @@
          by GROMACS utility `traj`
       3. name of directory holding .xvg files containing the x, y, z position of the atoms that define
          the vectors in each nucleobase outputted by GROMACS utility `traj`
-      4. path to directories that contain arguments (2.) and (3.) that you want to plot
+      4. total number of nucleotides
+      i. path to directories that contain arguments (2.) and (3.) that you want to plot
 
    example: python3 plot_stacking.py \
             "(a),(b),(d)" \
             com_files \
             vec_files \
+            42 \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA3/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/ 
@@ -86,7 +88,8 @@ input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)",
 legend     = input_list.split(',')
 com_dir    = str(sys.argv[2])
 vec_dir    = str(sys.argv[3])
-paths      = list(sys.argv[4:])
+n_residues = int(sys.argv[4])
+paths      = list(sys.argv[5:])
 
 # add trailing forward slash to directory path if necessary
 for path in range(len(paths)):
@@ -109,17 +112,9 @@ def S(alpha):
 def xi(COM_dist, alpha):
     return ( COM_dist / ( S(alpha) ) )
 
-def get_data(paths, com_dir, vec_dir):
+def get_data(paths, n_residues, com_dir, vec_dir):
     stacking_coords = [ [] for scenario in range(len(paths)) ]
     for scenario in range(len(paths)):
-        # check if the DNA is double-stranded or single-stranded
-        ds = False
-        if "ds" in paths[scenario].split("/")[-2]:
-            ds         = True
-            n_residues = 42
-        else:
-            n_residues = 21
-
         time       = []
         COM_coords = [ [] for resi in range(n_residues) ]
 
@@ -304,7 +299,7 @@ def plot_histogram(consecutive_stacked):
 
 def main():
     # get data from .xvg files
-    time, stacking_coords                  = get_data(paths, com_dir, vec_dir)
+    time, stacking_coords                  = get_data(paths, n_residues, com_dir, vec_dir)
     n_broken_stacking, consecutive_stacked = analyze_data(stacking_coords)
 
     # set rcParams
