@@ -1,6 +1,6 @@
 # Overview 
 
-A collection of scripts used for the paper.
+A collection of scripts used for paper.
 
 # Directories
 
