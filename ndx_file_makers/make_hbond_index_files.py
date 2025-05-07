@@ -14,11 +14,14 @@
 
 """
    usage: python3 make_hbond_index_files.py
-      1. [path to .gro file outputted by the mdrun that carried out energy minimization]
-      2. [number of base pairs in duplex]
-      3. [output directory]
+      1. path to .gro file outputted by the mdrun that carried out energy minimization
+      2. number of base pairs in duplex
+      3. output directory
    
-   example: python3 make_hbond_index_files.py /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA1/em.gro 42 /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA1/
+   example: python3 make_hbond_index_files.py \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/em.gro \
+            42 \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/
 """
 
 import sys
@@ -29,6 +32,7 @@ input_gro_file_path = str(sys.argv[1])
 max_residue_id      = int(sys.argv[2])
 output_dir          = str(sys.argv[3])
 
+# add trailing forward slash to directory path if necessary
 output_dir_split = output_dir.split("/")
 if output_dir_split[-1] != "":
     output_dir = output_dir + "/"
