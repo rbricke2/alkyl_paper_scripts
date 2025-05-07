@@ -53,7 +53,7 @@
     in the calculation of the center of mass. The angle between planes of two nucleobases and the distance between their mass-centers is measured
     using this script written in-house.
 
-    [1] Jafilan, S., Klein, L., Hyun, C., & Florián, J. (2012). Intramolecular base stacking of dinucleoside monophosphate anions in aqueous solution.
+    [1] Jafilan, S., Klein, L., Hyun, C., & Florian, J. (2012). Intramolecular base stacking of dinucleoside monophosphate anions in aqueous solution.
         The Journal of Physical Chemistry B, 116(11), 3613-3618.
     [2] Condon, D. E., Kennedy, S. D., Mort, B. C., Kierzek, R., Yildirim, I., & Turner, D. H. (2015). Stacking in RNA: NMR of four tetramers benchmark molecular dynamics.
         Journal of chemical theory and computation, 11(6), 2729-2742.
