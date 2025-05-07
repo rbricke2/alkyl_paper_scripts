@@ -5,7 +5,7 @@
 
 """
     Plots stacking analysis.
-    
+
     Base stacking is characterized geometrically. The stacking definition proposed by the Florian group [1] is used.
     That is, the distance between the centers of mass of two nucleobases and the angle between their planes are combined to produce
     a single reaction coordinate, $\xi$. Adjacent nucleobases are considered stacked if $\xi$ is less than or equal to 0.6 nm.
@@ -16,7 +16,7 @@
     the C6 atom in adenine (resp. guanine). For pyrimidines, $a$ is defined from the center of mass to the oxygen group attached to the C2 atom
     and $b$ is defined from the center of mass to the oxygen (resp. nitrogen) attached to the C4 atom in thymine (resp. cytosine). The atoms are
     surrounded by asterisk symbols in the below images.
-    
+
             THYMINE                                          CYTOSINE
                                                                         H42  H41
                                                                           \  /
@@ -33,26 +33,26 @@
                             \                                                \        
                              ~                                                ~
             
-            
-            
+
+
             ADENINE                                            GUANINE
-                   H61  H62                                          *O6*
-                     \  /                                             ||
-                     *N6*                                             C6
-                      |                                             /    \
-                      C6                                        H1-N1     C5--N7 \\
+                   H61  H62                                          *O6*                  
+                     \  /                                             ||                     
+                     *N6*                                             C6                     
+                      |                                             /    \                  
+                      C6                                        H1-N1     C5--N7 \\       
                    //    \                                         |      ||     *C8*-H8
-                  N1      C5--N7 \\                                C2     C4--N9 /
-                  |       ||     *C8*-H8                          / \\   /      \
-                  C2      C4--N9 /                          H21-N2     N3        \
-                 / \\    /     \                                |                 ~
-               H2     N3        \                              H22    
+                  N1      C5--N7 \\                                C2     C4--N9 /         
+                  |       ||     *C8*-H8                          / \\   /      \           
+                  C2      C4--N9 /                          H21-N2     N3        \          
+                 / \\    /     \                                |                 ~          
+               H2     N3        \                              H22                            
                                  ~
-    
+
     The center of mass of each nucleobase for each snapshot was obtained using the standard GROMACS utility ‘traj’; hydrogen atoms were not included
     in the calculation of the center of mass. The angle between planes of two nucleobases and the distance between their mass-centers is measured
     using this script written in-house.
-    
+
     [1] Jafilan, S., Klein, L., Hyun, C., & Florián, J. (2012). Intramolecular base stacking of dinucleoside monophosphate anions in aqueous solution.
         The Journal of Physical Chemistry B, 116(11), 3613-3618.
     [2] Condon, D. E., Kennedy, S. D., Mort, B. C., Kierzek, R., Yildirim, I., & Turner, D. H. (2015). Stacking in RNA: NMR of four tetramers benchmark molecular dynamics.
@@ -67,7 +67,7 @@
       3. name of directory holding .xvg files containing the x, y, z position of the atoms that define
          the vectors in each nucleobase outputted by GROMACS utility `traj`
       4. path to directories that contain arguments (2.) and (3.) that you want to plot
-   
+
    example: python3 plot_stacking.py \
             "(a),(b),(d)" \
             com_files \
@@ -99,7 +99,6 @@ for path in range(len(paths)):
 # FUNCTIONS
 #
 ################################################################################################
-
 
 def S(alpha):
     return ( np.exp( -(alpha**4) ) +
@@ -166,7 +165,7 @@ def get_data(paths, com_dir, vec_dir):
                     vec_b     = np.array([atoms_xyz[1][0]-COM_coord[0],
                                           atoms_xyz[1][1]-COM_coord[1],
                                           atoms_xyz[1][2]-COM_coord[2]])
-                                          
+                 
                     # record normal vector of base plane
                     norms[resi].append(np.cross(vec_a, vec_b))
 
@@ -201,7 +200,7 @@ def get_data(paths, com_dir, vec_dir):
                 alpha     = np.arccos(np.clip(cos_theta, -1.0, 1.0))    # angle between consecutive base planes (radians)
 
                 time_step.append(xi(COM_dist, alpha))
-            
+
             stacking_coords[scenario].append(time_step)    # the stacking coordinate, xi, is measured in nm
 
     return time, stacking_coords
@@ -209,13 +208,13 @@ def get_data(paths, com_dir, vec_dir):
 def analyze_data(stacking_coords, max_strand_len=21):
     # records the number of consecutively stacked bases for each scenario for each configuration
     consecutive_stacked = [ [ [] for t in range(len(stacking_coords[scenario])) ] for scenario in range(len(stacking_coords)) ]
-    
+
     # records the number of broken stacked bases for each scenario for each configuration
     n_broken_stacking = [ [] for scenario in range(len(stacking_coords)) ]
-    
+
     # will allow us to determine if we are at the last recorded stacking coordinate of a strand
     n_stacking_coord_per_strand = max_strand_len-1
-    
+
     # transient point, measured in nm, that separates the pools of the stacked and unstacked configurations
     transient_pt = 0.6
 
@@ -246,7 +245,7 @@ def analyze_data(stacking_coords, max_strand_len=21):
                 else:
                     consecutive_count += 1
                 prev = coord_value
-            
+
             n_broken_stacking[scenario].append(broken_count)
 
             if not consecutive_stacked[scenario][t]: # if there are NO stacked bases
@@ -310,7 +309,7 @@ def main():
 
     # set rcParams
     font_leg = set_rcParameters()
-    
+
     # set figure dimensions
     fig_width   = 5
     golden_mean = (np.sqrt(5)-1.0)/2.0     # aesthetic ratio
@@ -328,11 +327,11 @@ def main():
               fig_height)
 
     plot_histogram(consecutive_stacked)
-    
+
     # print statistics
     for i in range(len(n_broken_stacking)):
         print("Average number of broken stacking for file " + str(i+1) + ": " + str(round(statistics.mean(n_broken_stacking[i]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i]),1)))
-        
+
     for i in range(len(n_broken_stacking)):
         print("Average number of broken stacking for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_stacking[i][12000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i][12000:]),1)))
 
