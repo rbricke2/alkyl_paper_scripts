@@ -97,6 +97,7 @@ def get_hbond_existence(distances, angles):
     #     distance <= 0.35 nm
     #     angle    <= 30 degrees
 
+    # list of matrices
     hbond_bool_matrix = []
 
     for scenario in range(len(distances)):
@@ -123,7 +124,8 @@ def get_hbond_existence(distances, angles):
 
                 if not (dist <= 0.35 and angle <= 30):
                     Z[conf][base_pair]  = 1
-                        
+        
+        # append matrix
         hbond_bool_matrix.append(Z)
 
     return hbond_bool_matrix
