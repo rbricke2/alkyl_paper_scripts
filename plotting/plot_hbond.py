@@ -14,15 +14,23 @@
       3. name of .xvg file outputted by GROMACS utility `angle`
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
    
-   example: python3 plot_hbond.py \
-            "(a),(b),(c),(d),(e)" \
-            hbond.xvg \
-            hbond_angle.xvg \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
+   examples: python3 plot_hbond.py \
+             "(a),(b),(c),(d),(e)" \
+             hbond.xvg \
+             hbond_angle.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
+             
+             python3 plot_hbond.py \
+             "(a),(b),(d)" \
+             hbond.xvg \
+             hbond_angle.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA3/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/
 """
 
 import sys
@@ -179,6 +187,13 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     # figure dimensions  
     fig_width  = 8.7
     fig_height = (fig_width/7.5)
+    fig_width  = (len(hbond_bool_matrix)/5)*(8.7)
+    
+    if len(hbond_bool_matrix) == 3:
+        fig_width = 6
+    
+    # initialize color bar padding
+    padding = 0.02
 
     # initialize figure
     fig, axes  = plt.subplots(nrows=1, ncols=len(hbond_bool_matrix), sharey=True, figsize=(fig_width, fig_height))
@@ -217,6 +232,22 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
         if scenario == len(hbond_bool_matrix)//2:
             axes[scenario].set_xlabel("Base pair")
 
+        if len(hbond_bool_matrix) == 3: 
+            # secondary axis
+            ax2 = axes[scenario].secondary_yaxis('right', functions=(lambda x: 300+(x*((440-300)/1200)), lambda x: 300+(x*((440-300)/1200))))
+            
+            # set tick frequency on secondary y-axis and center ticks on row/column
+            ax2.set_yticks(np.arange(300, 460, 20, dtype=int))
+            
+            padding += 0.033
+            
+            if scenario == 2:            
+                # label left y-axis
+                ax2.set_ylabel('Temperature (K)', rotation=270, va='bottom')
+            else:
+                # remove axis values
+                ax2.set_yticklabels([])
+
     # add a big axis, hide frame
     fig.add_subplot(111, frameon=False)
 
@@ -227,7 +258,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     plt.ylabel("Simulation time (ns)")
 
     # color bar
-    cbar = fig.colorbar(pixel_plot, ax=axes.ravel().tolist(), ticks=[0,1], pad=0.02, aspect=10)
+    cbar = fig.colorbar(pixel_plot, ax=axes.ravel().tolist(), ticks=[0,1], pad=padding, aspect=10)
     cbar.ax.set_yticklabels(['Hydrogen\nbonding', 'Broken\nhydrogen\nbonding'])
 
     # change font size for color bar
