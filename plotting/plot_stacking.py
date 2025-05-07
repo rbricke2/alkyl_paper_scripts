@@ -64,8 +64,8 @@
       1. list of model names for legend (must be parallel w.r.t the arguments i to i+n)
       2. name of directory holding .xvg files containing the COM of each nucleobase outputted
          by GROMACS utility `traj`
-      3. name of directory holding .xvg files containing the x, y, z position of each atom in nucleobase
-         outputted by GROMACS utility `traj`
+      3. name of directory holding .xvg files containing the x, y, z position of each atom in
+         each nucleobase outputted by GROMACS utility `traj`
       4. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    example: python3 plot_stacking.py \
