@@ -67,6 +67,7 @@ r"""
       3. name of directory holding .xvg files containing the x, y, z position of the atoms that define
          the vectors in each nucleobase outputted by GROMACS utility `traj`
       4. total number of nucleotides
+      5. enter 1 if double-stranded, 0 if single-stranded
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
 
    example: python3 plot_stacking.py \
@@ -74,6 +75,7 @@ r"""
             com_files \
             vec_files \
             42 \
+            1 \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA3/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/ 
@@ -89,7 +91,8 @@ legend     = input_list.split(',')
 com_dir    = str(sys.argv[2])
 vec_dir    = str(sys.argv[3])
 n_residues = int(sys.argv[4])
-paths      = list(sys.argv[5:])
+ds         = bool(sys.argv[5])
+paths      = list(sys.argv[6:])
 
 # add trailing forward slash to directory path if necessary
 for path in range(len(paths)):
@@ -112,7 +115,7 @@ def S(alpha):
 def xi(COM_dist, alpha):
     return ( COM_dist / ( S(alpha) ) )
 
-def get_data(paths, n_residues, com_dir, vec_dir):
+def get_data(paths, n_residues, com_dir, vec_dir, ds):
     stacking_coords = [ [] for scenario in range(len(paths)) ]
     for scenario in range(len(paths)):
         time       = []
@@ -299,7 +302,7 @@ def plot_histogram(consecutive_stacked):
 
 def main():
     # get data from .xvg files
-    time, stacking_coords                  = get_data(paths, n_residues, com_dir, vec_dir)
+    time, stacking_coords                  = get_data(paths, n_residues, com_dir, vec_dir, ds)
     n_broken_stacking, consecutive_stacked = analyze_data(stacking_coords)
 
     # set rcParams
