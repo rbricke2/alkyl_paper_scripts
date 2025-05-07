@@ -3,7 +3,7 @@
     Year:   2025
 """
 
-"""
+r"""
     Plots stacking analysis.
 
     Base stacking is characterized geometrically. The stacking definition proposed by the Florian group [1] is used.
@@ -32,7 +32,7 @@
                            \                                                \        
                             \                                                \        
                              ~                                                ~
-            
+
 
 
             ADENINE                                            GUANINE
