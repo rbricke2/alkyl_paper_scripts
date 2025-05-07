@@ -9,7 +9,7 @@
 
 """
    usage: python3 plot_hbond.py
-      1. list of scenario names for legend (must be parallel w.r.t the arguments i, ..., i+n)
+      1. list of model names for legend (must be parallel w.r.t the arguments i to i+n)
       2. name of .xvg file outputted by GROMACS utility `distance`
       3. name of .xvg file outputted by GROMACS utility `angle`
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
@@ -205,7 +205,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
 
         # set tick frequency on x- and y-axis and center ticks on row/column
         half_time_step = time_step/2
-        axes[scenario].set_yticks(np.arange(ybottom+half_time_step, ytop+half_time_step, 100), np.arange(ybottom, ytop, 100, dtype=int))
+        axes[scenario].set_yticks(np.arange(ybottom+half_time_step, ytop+half_time_step, 200), np.arange(ybottom, ytop, 200, dtype=int))
         axes[scenario].set_xticks(np.arange(xleft+0.5, xright+0.5, 4), np.arange(xleft, xright, 4))
         
         # set minor tick locations on the x-axis
@@ -269,7 +269,7 @@ def main():
     plot_data(time,
               n_broken_hbond,
               x_label,
-              "Number of broken\nhydrogen bonds",
+              "Number of broken base pairs (bp)",
               "Entire Duplex (Parmbsc1)",
               legend,
               "melted_hbond_vs_time.svg",
@@ -287,7 +287,7 @@ def main():
     plot_data(time,
               get_n_broken_hbond(hbond_bool_matrix, stop_residue_id),
               x_label,
-              "Number of broken\nhydrogen bonds",
+              "Number of broken base pairs (bp)",
               "First Six Base Pairs (Parmbsc1)",
               legend,
               "melted_hbond_vs_time_terminal.svg",
@@ -296,7 +296,11 @@ def main():
     
     # print statistics
     for i in range(len(n_broken_hbond)):
-        print("Average number of melted hydrogen bonds for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),1)))
+        print("Average number of melted base pairs for file " + str(i+1) + ": " + str(round(statistics.mean(n_broken_hbond[i]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i]),1)))
+    for i in range(len(n_broken_hbond)):
+        print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),1)))
+    for i in range(len(n_broken_hbond)):
+        print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_hbond[i][12000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][12000:]),1)))
 
 if __name__ == "__main__": 
     main()

@@ -5,11 +5,68 @@
 
 """
     Plots stacking analysis.
+    
+    Base stacking is characterized geometrically. The stacking definition proposed by the Florian group [1] is used.
+    That is, the distance between the centers of mass of two nucleobases and the angle between their planes are combined to produce
+    a single reaction coordinate, $\xi$. Adjacent nucleobases are considered stacked if $\xi$ is less than or equal to 0.6 nm.
+
+    The plane of a nucleotide was determined using the definition presented by the Turner group [2]. That is, the plane of a nucleotide
+    is defined by two vectors, $a$ and $b$, whose cross products $a \times b$ and $b \times a$ define each base’s normal vectors. For purines,
+    $a$ is defined from the center of mass to the C8 atom and $b$ is defined from the center of mass to the nitrogen (resp. oxygen) group in adenine
+    (resp. guanine) attached to the C6 atom. For pyrimidines, $a$ is defined from the center of mass to the oxygen group attached to the C2 atom
+    and $b$ is defined from the center of mass to the oxygen (resp. nitrogen) group in thymine (resp. cytosine) attached to the C4 atom. The atoms are
+    surrounded by asterisk symbols in the below images.
+    
+            THYMINE                                          CYTOSINE
+                                                                        H42  H41
+                                                                          \  /
+                  H51    *O4*                                             *N4*           
+                   |      ||                                               | 
+               H52-C5M    C4     H3                                        C4  
+                   |  \ /    \  /                                        /    \\    
+                  H53  C5     N3                                     H5-C5     N3   
+                       ||     |                                         ||     |  
+                    H6-C6     C2                                     H6-C6     C2
+                        \    / \\                                        \    / \\
+                          N1   *O2*                                        N1   *O2* 
+                           \                                                \        
+                            \                                                \        
+                             ~                                                ~
+            
+            
+            
+            ADENINE                                            GUANINE
+                   H61  H62                                          *O6*
+                     \  /                                             ||
+                     *N6*                                             C6
+                      |                                             /    \
+                      C6                                        H1-N1     C5--N7 \\
+                   //    \                                         |      ||     *C8*-H8
+                  N1      C5--N7 \\                                C2     C4--N9 /
+                  |       ||     *C8*-H8                          / \\   /      \
+                  C2      C4--N9 /                          H21-N2     N3        \
+                 / \\    /     \                                |                 ~
+               H2     N3        \                              H22    
+                                 ~
+    
+    The center of mass of each nucleobase for each snapshot was obtained using the standard GROMACS utility ‘traj’; hydrogen atoms were not included
+    in the calculation of the center of mass. The angle between planes of two nucleobases and the distance between their mass-centers is measured
+    using this script written in-house.
+    
+    [1] Jafilan, S., Klein, L., Hyun, C., & Florián, J. (2012). Intramolecular base stacking of dinucleoside monophosphate anions in aqueous solution.
+        The Journal of Physical Chemistry B, 116(11), 3613-3618.
+    [2] Condon, D. E., Kennedy, S. D., Mort, B. C., Kierzek, R., Yildirim, I., & Turner, D. H. (2015). Stacking in RNA: NMR of four tetramers benchmark molecular dynamics.
+        Journal of chemical theory and computation, 11(6), 2729-2742.
 """
 
 """
    usage: python3 plot_stacking.py
-      1. 
+      1. list of model names for legend (must be parallel w.r.t the arguments i to i+n)
+      2. name of directory holding .xvg files containing the COM of each nucleobase outputted
+         by GROMACS utility `traj`
+      3. name of directory holding .xvg files containing the x, y, z position of each atom in nucleobase
+         outputted by GROMACS utility `traj`
+      4. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    example: python3 plot_stacking.py \
             "(a),(b),(d)" \
@@ -230,13 +287,13 @@ def plot_histogram(consecutive_stacked):
     # y-axis
     ax.set_yticks(np.arange(len(legend)), legend, rotation=0, ha='left', va='baseline')
     ax.tick_params(axis='y', which='major', pad=-2)
-    ax.set_ylabel("Scenarios", labelpad=-2)
+    ax.set_ylabel("Models", labelpad=-2)
 
     # z-axis
     ax.set_zticks(ax.get_zticks(), ax.get_zticklabels(), rotation=0, ha='center', va='baseline')
     ax.tick_params(axis='z', which='major', pad=-1)
-    ax.set_zlabel("Probability density")
     ax.zaxis._axinfo['juggled'] = (1,2,0) # z-axis left side
+    ax.set_zlabel("Probability density", labelpad=-2)
 
     plt.savefig("stacking_hist.svg", bbox_inches="tight", dpi=600)
 
@@ -263,7 +320,7 @@ def main():
     plot_data(time,
               n_broken_stacking,
               "Simulation time (ns)",
-              "Number of broken stacking",
+              "Number of broken stacking interactions",
               "Simulated Annealing",
               legend,
               "broken_stacking_vs_time.svg",
