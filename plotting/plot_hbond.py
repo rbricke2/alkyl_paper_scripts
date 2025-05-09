@@ -227,8 +227,12 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
 
         # set tick frequency on x- and y-axis and center ticks on row/column
         half_time_step = time_step/2
-        axes[scenario].set_yticks(np.arange(ybottom+half_time_step, ytop+half_time_step, 200), np.arange(ybottom, ytop, 200, dtype=int))
-        axes[scenario].set_xticks(np.arange(xleft+0.5, xright+0.5, 4), np.arange(xleft, xright, 4))
+        x_axis_freq = 4
+        y_axis_freq = 100
+        if annealing:
+            y_axis_freq = 200
+        axes[scenario].set_yticks(np.arange(ybottom+half_time_step, ytop+half_time_step, y_axis_freq), np.arange(ybottom, ytop, y_axis_freq, dtype=int))
+        axes[scenario].set_xticks(np.arange(xleft+0.5, xright+0.5, x_axis_freq), np.arange(xleft, xright, x_axis_freq))
         
         # set minor tick locations on the x-axis
         axes[scenario].xaxis.set_minor_locator(FixedLocator(np.arange(xleft+0.5, xright+0.5, 1)))
