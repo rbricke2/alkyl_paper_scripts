@@ -60,6 +60,10 @@ r"""
 """
 
 """
+    Acknowledgments: Thanks to Dr. John Portman for helping me.
+"""
+
+"""
    usage: python3 plot_stacking.py
       1. list of model names for legend (must be parallel w.r.t the arguments i to i+n)
       2. name of directory holding .xvg files containing the COM of each nucleobase outputted
