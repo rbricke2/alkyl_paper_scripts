@@ -1,6 +1,7 @@
 """
-    Author: Rachel Bricker
-    Year:   2025
+    Author:          Rachel Bricker
+    Year:            2025
+    Acknowledgments: Thanks to Dr. John Portman for helping me.
 """
 
 r"""
@@ -57,10 +58,6 @@ r"""
         The Journal of Physical Chemistry B, 116(11), 3613-3618.
     [2] Condon, D. E., Kennedy, S. D., Mort, B. C., Kierzek, R., Yildirim, I., & Turner, D. H. (2015). Stacking in RNA: NMR of four tetramers benchmark molecular dynamics.
         Journal of chemical theory and computation, 11(6), 2729-2742.
-"""
-
-"""
-    Acknowledgments: Thanks to Dr. John Portman for helping me.
 """
 
 """
