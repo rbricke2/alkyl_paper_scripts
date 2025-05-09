@@ -15,14 +15,12 @@
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    examples: python3 plot_hbond.py \
-             "(a),(b),(c),(d),(e)" \
+             "(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/
              
              python3 plot_hbond.py \
              "(a),(b),(d)" \
@@ -183,6 +181,9 @@ def get_avg_dist_per_conf(distances, stop_residue_id=None):
 def plot_color_map(time, hbond_bool_matrix, font_leg):
     font_size   = font_leg.get_size()
     font_family = font_leg.get_family()[0]
+    
+    # initialize file name
+    file_name = "colorplot_hbond_binary.svg"
 
     # figure dimensions  
     fig_width  = 8.7
@@ -247,8 +248,11 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
                 # label secondary y-axis on left-most plot
                 ax2.set_ylabel('Temperature (K)', rotation=270, va='bottom')
             else:
-                # remove secondary y-axis tick labels on all plots except left-most
+                # remove secondary y-axis tick labels on all plots except for left-most
                 ax2.set_yticklabels([])
+            
+            # change file name
+            file_name = "colorplot_hbond_binary_annealing.svg"
 
     # add a big axis, hide frame
     fig.add_subplot(111, frameon=False)
@@ -273,7 +277,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     #plt.tight_layout()
 
     # save figure
-    plt.savefig("colorplot_hbond_binary.svg", bbox_inches="tight", dpi=600)
+    plt.savefig(file_name, bbox_inches="tight", dpi=600)
 
 ################################################################################################
 #
@@ -328,14 +332,19 @@ def main():
               "melted_hbond_vs_time_terminal.svg",
               fig_width,
               fig_height)
+
     
     # print statistics
+    frame_200ns = 4000
+    frame_600ns = 12000
     for i in range(len(n_broken_hbond)):
         print("Average number of melted base pairs for file " + str(i+1) + ": " + str(round(statistics.mean(n_broken_hbond[i]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i]),1)))
     for i in range(len(n_broken_hbond)):
-        print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][4000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][4000:]),1)))
+        if len(n_broken_hbond[i]) > frame_200ns+1:
+            print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][frame_200ns:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][frame_200ns:]),1)))
     for i in range(len(n_broken_hbond)):
-        print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_hbond[i][12000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][12000:]),1)))
+        if len(n_broken_hbond[i]) > frame_600ns+1:
+            print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_hbond[i][frame_600ns:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][frame_600ns:]),1)))
 
 if __name__ == "__main__": 
     main()
