@@ -91,7 +91,7 @@ legend     = input_list.split(',')
 com_dir    = str(sys.argv[2])
 vec_dir    = str(sys.argv[3])
 n_residues = int(sys.argv[4])
-ds         = bool(sys.argv[5])
+ds         = bool(int(sys.argv[5]))
 paths      = list(sys.argv[6:])
 
 # add trailing forward slash to directory path if necessary
@@ -327,11 +327,12 @@ def main():
     plot_histogram(consecutive_stacked)
 
     # print statistics
+    frame_600ns = 12000
     for i in range(len(n_broken_stacking)):
         print("Average number of broken stacking for file " + str(i+1) + ": " + str(round(statistics.mean(n_broken_stacking[i]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i]),1)))
-
     for i in range(len(n_broken_stacking)):
-        print("Average number of broken stacking for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_stacking[i][12000:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i][12000:]),1)))
+        if len(n_broken_stacking[i]) > frame_600ns+1:
+            print("Average number of broken stacking for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_stacking[i][frame_600ns:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_stacking[i][frame_600ns:]),1)))
 
 if __name__ == "__main__": 
     main()

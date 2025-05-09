@@ -12,12 +12,14 @@
       1. list of model names for legend (must be parallel w.r.t the arguments i to i+n)
       2. name of .xvg file outputted by GROMACS utility `distance`
       3. name of .xvg file outputted by GROMACS utility `angle`
+      4. enter 0 if constant temperature, 1 if simulated annealing
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    examples: python3 plot_hbond.py \
              "(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
+             0 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/
@@ -26,6 +28,7 @@
              "(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
+             1 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA3/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/
@@ -42,7 +45,8 @@ input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)",
 legend     = input_list.split(',')
 dist_xvg   = str(sys.argv[2])
 ang_xvg    = str(sys.argv[3])
-paths      = list(sys.argv[4:])
+annealing  = bool(int(sys.argv[4]))
+paths      = list(sys.argv[5:])
 
 # add trailing forward slash to directory path if necessary
 for path in range(len(paths)):
@@ -178,7 +182,7 @@ def get_avg_dist_per_conf(distances, stop_residue_id=None):
     
     return dist_avg
 
-def plot_color_map(time, hbond_bool_matrix, font_leg):
+def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
     font_size   = font_leg.get_size()
     font_family = font_leg.get_family()[0]
     
@@ -190,7 +194,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
     fig_height = (fig_width/7.5)
     fig_width  = (len(hbond_bool_matrix)/5)*(8.7)
     
-    if len(hbond_bool_matrix) == 3:
+    if annealing:
         fig_width = 6
     
     # initialize color bar padding
@@ -233,7 +237,7 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
         if scenario == len(hbond_bool_matrix)//2:
             axes[scenario].set_xlabel("Base pair")
 
-        if len(hbond_bool_matrix) == 3: 
+        if annealing: 
             # add secondary y-axis
             ax2 = axes[scenario].secondary_yaxis('right', functions=(lambda x: 300+(x*((440-300)/1200)), lambda x: 300+(x*((440-300)/1200))))
             
@@ -298,8 +302,9 @@ def main():
     font_leg = set_rcParameters()
 
     # plot boolean color map
-    plot_color_map(time, hbond_bool_matrix, font_leg)
-    
+    plot_color_map(time, hbond_bool_matrix, annealing, font_leg)
+
+    """
     # plot other data as function of time
     x_label     = "Simulation time (ns)"
     fig_width   = 5
@@ -332,8 +337,8 @@ def main():
               "melted_hbond_vs_time_terminal.svg",
               fig_width,
               fig_height)
+    """
 
-    
     # print statistics
     frame_200ns = 4000
     frame_600ns = 12000
