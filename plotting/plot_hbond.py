@@ -41,7 +41,7 @@ import matplotlib as mpl
 from matplotlib.ticker import FixedLocator
 
 # command line input
-input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)", ")")
+input_list = sys.argv[1].replace("\\n", "\n").replace("\\t", "\t").replace("\\(", "(").replace("\\)", ")")
 legend     = input_list.split(',')
 dist_xvg   = str(sys.argv[2])
 ang_xvg    = str(sys.argv[3])
@@ -196,6 +196,7 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
     
     if annealing:
         fig_width = 6
+        time      = [t+600 for t in time]
     
     # initialize color bar padding
     padding = 0.03
@@ -243,7 +244,7 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
 
         if annealing: 
             # add secondary y-axis
-            ax2 = axes[scenario].secondary_yaxis('right', functions=(lambda x: 300+(x*((440-300)/1200)), lambda x: 300+(x*((440-300)/1200))))
+            ax2 = axes[scenario].secondary_yaxis('right', functions=(lambda x: 300+((x-600)*((440-300)/1200)), lambda x: 300+((x-600)*((440-300)/1200))))
             
             # set tick frequency on secondary y-axis and center ticks on row/column
             freq = 20

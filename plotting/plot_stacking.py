@@ -86,7 +86,7 @@ import numpy as np
 from functions_for_plots import *
 
 # command line input
-input_list = sys.argv[1].replace("\\n", "\n").replace("\\(", "(").replace("\\)", ")")
+input_list = sys.argv[1].replace("\\n", "\n").replace("\\t", "\t").replace("\\(", "(").replace("\\)", ")")
 legend     = input_list.split(',')
 com_dir    = str(sys.argv[2])
 vec_dir    = str(sys.argv[3])
