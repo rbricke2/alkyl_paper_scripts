@@ -31,8 +31,7 @@ r"""
                         \    / \\                                        \    / \\
                           N1   *O2*                                        N1   *O2* 
                            \                                                \        
-                            \                                                \        
-                             ~                                                ~
+                            ~                                                ~
 
 
 
@@ -45,10 +44,10 @@ r"""
                    //    \                                         |      ||     *C8*-H8
                   N1      C5--N7 \\                                C2     C4--N9 /         
                   |       ||     *C8*-H8                          / \\   /      \           
-                  C2      C4--N9 /                          H21-N2     N3        \          
-                 / \\    /     \                                |                 ~          
-               H2     N3        \                              H22                            
-                                 ~
+                  C2      C4--N9 /                          H21-N2     N3        ~          
+                 / \\    /     \                                |                           
+               H2     N3        ~                              H22                            
+                                 
 
     The center of mass of each nucleobase for each snapshot was obtained using the standard GROMACS utility ‘traj’; hydrogen atoms were not included
     in the calculation of the center of mass. The angle between planes of two nucleobases and the distance between their mass-centers is measured
