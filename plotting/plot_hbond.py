@@ -233,19 +233,21 @@ def plot_color_map(time, hbond_bool_matrix, font_leg):
             axes[scenario].set_xlabel("Base pair")
 
         if len(hbond_bool_matrix) == 3: 
-            # secondary axis
+            # add secondary y-axis
             ax2 = axes[scenario].secondary_yaxis('right', functions=(lambda x: 300+(x*((440-300)/1200)), lambda x: 300+(x*((440-300)/1200))))
             
             # set tick frequency on secondary y-axis and center ticks on row/column
-            ax2.set_yticks(np.arange(300, 460, 20, dtype=int))
+            freq = 20
+            ax2.set_yticks(np.arange(300, 440+freq, freq, dtype=int))
             
+            # add extra padding to color bar to create room for secondary y-axis
             padding += 0.033
             
-            if scenario == 2:            
-                # label left y-axis
+            if scenario == (len(hbond_bool_matrix)-1):            
+                # label secondary y-axis on left-most plot
                 ax2.set_ylabel('Temperature (K)', rotation=270, va='bottom')
             else:
-                # remove axis values
+                # remove secondary y-axis tick labels on all plots except left-most
                 ax2.set_yticklabels([])
 
     # add a big axis, hide frame
