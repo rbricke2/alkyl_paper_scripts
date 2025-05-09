@@ -198,7 +198,7 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
         fig_width = 6
     
     # initialize color bar padding
-    padding = 0.02
+    padding = 0.03
 
     # initialize figure
     fig, axes  = plt.subplots(nrows=1, ncols=len(hbond_bool_matrix), sharey=True, figsize=(fig_width, fig_height))
@@ -250,7 +250,7 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
             ax2.set_yticks(np.arange(300, 440+freq, freq, dtype=int))
             
             # add extra padding to color bar to create room for secondary y-axis
-            padding += 0.033
+            padding += 0.03
             
             if scenario == (len(hbond_bool_matrix)-1):            
                 # label secondary y-axis on left-most plot
