@@ -192,10 +192,12 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
     # figure dimensions  
     fig_width  = 8.7
     fig_height = (fig_width/7.5)
-    fig_width  = (len(hbond_bool_matrix)/5)*(8.7)
+    fig_height = 2.2
+    fig_width  = (len(hbond_bool_matrix)/5)*(fig_width)
+    fig_width  = 4.1
     
     if annealing:
-        fig_width = 6
+        fig_width = 4.1
         time      = [t+600 for t in time]
     
     # initialize color bar padding
@@ -228,7 +230,7 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
 
         # set tick frequency on x- and y-axis and center ticks on row/column
         half_time_step = time_step/2
-        x_axis_freq = 4
+        x_axis_freq = 5
         y_axis_freq = 100
         if annealing:
             y_axis_freq = 200
@@ -241,6 +243,9 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
         # put x-axis label on centermost plot
         if scenario == len(hbond_bool_matrix)//2:
             axes[scenario].set_xlabel("Base pair")
+        # put y-axis label on rightmost plot
+        if scenario == 0:            
+            axes[scenario].set_ylabel("Simulation time (ns)")
 
         if annealing: 
             # add secondary y-axis
@@ -251,30 +256,22 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
             ax2.set_yticks(np.arange(300, 440+freq, freq, dtype=int))
             
             # add extra padding to color bar to create room for secondary y-axis
-            padding += 0.03
+            padding += 0.033
             
             if scenario == (len(hbond_bool_matrix)-1):            
-                # label secondary y-axis on left-most plot
+                # label secondary y-axis on leftmost plot
                 ax2.set_ylabel('Temperature (K)', rotation=270, va='bottom')
             else:
-                # remove secondary y-axis tick labels on all plots except for left-most
+                # remove secondary y-axis tick labels on all plots except for leftmost
                 ax2.set_yticklabels([])
             
             # change file name
             file_name = "colorplot_hbond_binary_annealing.svg"
-
-    # add a big axis, hide frame
-    fig.add_subplot(111, frameon=False)
-
-    # hide tick and tick label of the big axis
-    plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
-
-    # set y-axis label
-    plt.ylabel("Simulation time (ns)")
+    
 
     # color bar
-    cbar = fig.colorbar(pixel_plot, ax=axes.ravel().tolist(), ticks=[0,1], pad=padding, aspect=10)
-    cbar.ax.set_yticklabels(['Hydrogen\nbonding', 'Broken\nhydrogen\nbonding'])
+    cbar = fig.colorbar(pixel_plot, ax=axes, ticks=[0,1], pad=0.3, fraction=0.05, aspect=30, orientation='horizontal')
+    cbar.ax.set_xticklabels(['Hydrogen bonding', 'Broken hydrogen bonding'])
 
     # change font size for color bar
     cbar.ax.tick_params(labelsize=font_size)
