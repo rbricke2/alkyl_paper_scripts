@@ -9,14 +9,27 @@
 
 """
    usage: python3 plot_radius_of_gyration.py
+      1. figure width
+      2. figure height
       i. path to .xvg file outputted by GROMACS utility `gyrate` that you want to plot
    
-   example: python3 plot_radius_of_gyration.py \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA3/gyrate.xvg \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA2/gyrate.xvg \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA4/gyrate.xvg \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA5/gyrate.xvg
+   examples: python3 plot_radius_of_gyration.py \
+             3 \
+             1.57 \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA3/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA2/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA4/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA5/gyrate.xvg
+             
+             python3 plot_radius_of_gyration.py \
+             6.9 \
+             1.57 \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA3/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA2/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA4/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA5/gyrate.xvg
 """
 
 import sys
@@ -24,7 +37,9 @@ import numpy as np
 from functions_for_plots import *
 
 # command line input
-paths = list(sys.argv[1:])
+fig_width  = float(sys.argv[1])
+fig_height = float(sys.argv[2])
+paths      = list(sys.argv[3:])
 
 ################################################################################################
 #
@@ -67,9 +82,7 @@ def main():
     font_leg = set_rcParameters()
 
     # set figure dimensions
-    fig_height = 1.57   
-    fig_width  = 3
-    fig, ax    = plt.subplots(1, figsize=(fig_width, fig_height))
+    fig, ax = plt.subplots(1, figsize=(fig_width, fig_height))
 
     # plot data
     for i in range(len(gyrate)):

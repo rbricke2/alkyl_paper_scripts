@@ -25,6 +25,17 @@
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/
              
              python3 plot_hbond.py \
+             "unmodified,4 decyls\n(spaced out),4 decyls\n(together),10 decyls,10 ethyls" \
+             hbond.xvg \
+             hbond_angle.xvg \
+             0 \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
+             
+             python3 plot_hbond.py \
              "(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
@@ -291,9 +302,7 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
 #
 ################################################################################################
 
-def main():
-    stop_residue_id = 6   # first six residues
-    
+def main():  
     # get data from .xvg files
     time, distances   = get_dist(paths, dist_xvg)
     angles            = get_angle(paths, ang_xvg)
@@ -308,15 +317,15 @@ def main():
 
     """
     # plot other data as function of time
-    x_label     = "Simulation time (ns)"
-    fig_width   = 5
-    golden_mean = (np.sqrt(5)-1.0)/2.0     # aesthetic ratio
-    fig_height  = fig_width*golden_mean    # height in inches
+    stop_residue_id = 6   # first six residues
+    x_label         = "Simulation time (ns)"
+    fig_width       = 3.35
+    fig_height      = 1.4 
     plot_data(time,
               n_broken_hbond,
               x_label,
-              "Number of broken base pairs (bp)",
-              "Entire Duplex (Parmbsc1)",
+              "Number of broken\nbase pairs (bp)",
+              None,
               legend,
               "melted_hbond_vs_time.svg",
               fig_width,
@@ -325,7 +334,7 @@ def main():
               get_avg_dist_per_conf(distances, stop_residue_id),
               x_label,
               r"$\langle r \rangle$ (nm)",
-              "First Six Base Pairs (Parmbsc1)",
+              None,
               legend,
               "distance_vs_time_terminal.svg",
               fig_width,
@@ -334,7 +343,7 @@ def main():
               get_n_broken_hbond(hbond_bool_matrix, stop_residue_id),
               x_label,
               "Number of broken base pairs (bp)",
-              "First Six Base Pairs (Parmbsc1)",
+              None,
               legend,
               "melted_hbond_vs_time_terminal.svg",
               fig_width,
