@@ -1,6 +1,6 @@
 # Overview 
 
-A collection of scripts used for alkyl paper.
+A collection of scripts created for alkyl paper.
 
 # Directories
 
