@@ -140,10 +140,6 @@ def main():
     fig_width  = 7
     fig_height = 3.6
 
-    # axis labels
-    x_label = "Cycles"
-    y_label = "Derivative"
-
     # set rcParams
     font_leg = set_rcParameters()
 
@@ -164,7 +160,7 @@ def main():
 
         # set y-axis label on leftmost plot
         if i == 0:
-            axes[i].set_ylabel("Derivative")
+            axes[i].set_ylabel("Average Derivative")
 
         # show grid
         axes[i].grid()
