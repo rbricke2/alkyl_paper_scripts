@@ -111,7 +111,7 @@ def main():
     plt.savefig("soumya_scatterplot.svg", bbox_inches="tight", dpi = 600)
 
     ################################################
-    # derivative curves
+    # plot derivative curves
 
     with open('PTO_triplicates.csv', mode='r') as file:
         csv_file = csv.reader(file)
@@ -133,11 +133,14 @@ def main():
 
     y = [y_no_PS_avg, y_1_PS_avg, y_2_PS_avg, y_4_PS_avg]
     e = [y_no_PS_std, y_1_PS_std, y_2_PS_std, y_4_PS_std]
+    
+    #print(y[2][16])
+    #print(e[2][16])
 
     del y_no_PS_avg, y_1_PS_avg, y_2_PS_avg, y_4_PS_avg, y_no_PS_std, y_1_PS_std, y_2_PS_std, y_4_PS_std
 
     # figure dimensions
-    fig_width  = 7
+    fig_width  = 7.2
     fig_height = 3.6
 
     # set rcParams
