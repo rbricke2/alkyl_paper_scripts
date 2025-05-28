@@ -159,11 +159,11 @@ def main():
         # error
         axes[i].errorbar(x, y[i], yerr=e[i], ls = "None", capsize=3, color='black', elinewidth=0.5, markeredgewidth=0.5)
         # scatter
-        axes[i].scatter(x, y[i], s=4, facecolor="r", zorder=2, edgecolors="black", linewidth=0.5)
+        axes[i].scatter(x, y[i], s=8, facecolor="r", zorder=2, edgecolors="black", linewidth=0.5)
 
         # set y-axis label on leftmost plot
         if i == 0:
-            axes[i].set_ylabel("Average Derivative")
+            axes[i].set_ylabel("Average $dF/dC$")
 
         # show grid
         axes[i].grid()
@@ -178,7 +178,7 @@ def main():
     plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
 
     # common x-axis label
-    plt.xlabel("Cycles")
+    plt.xlabel("Cycle number")
 
     plt.tight_layout()
 
