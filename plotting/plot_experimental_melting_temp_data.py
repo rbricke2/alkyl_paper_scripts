@@ -11,8 +11,9 @@
    usage: python3 plot_experimental_melting_temp_data.py
 """
 
-import numpy as np 
-from functions_for_plots import plt, font_manager, set_rcParameters
+import numpy as np
+import csv
+from functions_for_plots import plt, font_manager, set_rcParameters, statistics
 
 ################################################################################################
 #
@@ -33,7 +34,7 @@ def main():
     
     # set figure dimensions
     fig_height = 1.8  
-    fig_width  = 3.2
+    fig_width  = 3.8
     
     ################################################
     # plot bar graph
@@ -55,14 +56,17 @@ def main():
     plt.xticks(n_groups, ['4PS\nspaced', '2PS\ntogether', '4PS\ntogether']) 
     
     # label axes
-    plt.xlabel("Position of phosphorothioate") 
-    plt.ylabel("Melting temp. (${}^{\circ}$C)") 
+    plt.xlabel("Modification pattern") 
+    plt.ylabel("$T_m$ (${}^{\circ}$C)") 
 
     # give legend information
-    plt.legend(["Butyl", "Heptyl", "Decyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg)
+    legend = plt.legend(["Butyl", "Heptyl", "Decyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg, frameon=False)
 
     # only show grid for y-axis
     plt.grid(axis='y')
+    
+    # change y-axis range
+    plt.ylim((30,60))
 
     plt.tight_layout()
 
@@ -90,10 +94,10 @@ def main():
     
     # label axes
     plt.xlabel("Number of phosphorothioates") 
-    plt.ylabel("Melting temp. (${}^{\circ}$C)") 
+    plt.ylabel("$T_m$ (${}^{\circ}$C)") 
 
     # give legend information
-    plt.legend(["Unmodified", "Butyl", "Pentyl", "Heptyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
+    plt.legend(["Unmodified", "Butyl", "Pentyl", "Heptyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg, frameon=False) 
 
     # show minor ticks
     ax.minorticks_on()
@@ -105,7 +109,82 @@ def main():
 
     # save figure
     plt.savefig("soumya_scatterplot.svg", bbox_inches="tight", dpi = 600)
-    
+
+    ################################################
+    # derivative curves
+
+    with open('PTO_triplicates.csv', mode='r') as file:
+        csv_file = csv.reader(file)
+        rows     = list(csv_file)
+
+    # remove first and last rows
+    rows = rows[1:-1]
+
+    # retrieve data
+    x           = [int(item[0]) for item in rows]
+    y_no_PS_avg = [statistics.mean( [float(item[14]), float(item[15]), float(item[16])]) for item in rows]
+    y_no_PS_std = [statistics.stdev([float(item[14]), float(item[15]), float(item[16])]) for item in rows]
+    y_1_PS_avg  = [statistics.mean( [float(item[17]), float(item[18]), float(item[19])]) for item in rows]
+    y_1_PS_std  = [statistics.stdev([float(item[17]), float(item[18]), float(item[19])]) for item in rows]
+    y_2_PS_avg  = [statistics.mean( [float(item[20]), float(item[21]), float(item[22])]) for item in rows]
+    y_2_PS_std  = [statistics.stdev([float(item[20]), float(item[21]), float(item[22])]) for item in rows]
+    y_4_PS_avg  = [statistics.mean( [float(item[23]), float(item[24]), float(item[25])]) for item in rows]
+    y_4_PS_std  = [statistics.stdev([float(item[23]), float(item[24]), float(item[25])]) for item in rows]
+
+    y = [y_no_PS_avg, y_1_PS_avg, y_2_PS_avg, y_4_PS_avg]
+    e = [y_no_PS_std, y_1_PS_std, y_2_PS_std, y_4_PS_std]
+
+    del y_no_PS_avg, y_1_PS_avg, y_2_PS_avg, y_4_PS_avg, y_no_PS_std, y_1_PS_std, y_2_PS_std, y_4_PS_std
+
+    # figure dimensions
+    fig_width  = 7
+    fig_height = 3.6
+
+    # axis labels
+    x_label = "Cycles"
+    y_label = "Derivative"
+
+    # set rcParams
+    font_leg = set_rcParameters()
+
+    # set figure dimensions
+    fig, axes = plt.subplots(1, 4, sharey=True, figsize=(fig_width, fig_height))
+
+    # titles
+    titles = ["Unmodified", "One\nPhosphorothioate", "Two\nPhosphorothioates", "Four\nPhosphorothioates"]
+
+    # plot data
+    for i in range(len(axes)):
+        # line
+        axes[i].plot(x, y[i], color="r", alpha=0.3, linewidth=1)
+        # error
+        axes[i].errorbar(x, y[i], yerr=e[i], ls = "None", capsize=3, color='black', elinewidth=0.5, markeredgewidth=0.5)
+        # scatter
+        axes[i].scatter(x, y[i], s=4, facecolor="r", zorder=2, edgecolors="black", linewidth=0.5)
+
+        # set y-axis label on leftmost plot
+        if i == 0:
+            axes[i].set_ylabel("Derivative")
+
+        # show grid
+        axes[i].grid()
+
+        # set title
+        axes[i].set_title(titles[i])
+
+    # add a big axis and hide frame for common x-axis label
+    fig.add_subplot(111, frameon=False)
+
+    # hide tick and tick label of the big axis
+    plt.tick_params(labelcolor='none', which='both', top=False, bottom=False, left=False, right=False)
+
+    # common x-axis label
+    plt.xlabel("Cycles")
+
+    plt.tight_layout()
+
+    # save figure
+    plt.savefig("derivative.svg", bbox_inches="tight", dpi=600)
 
 if __name__ == "__main__": 
     main()
