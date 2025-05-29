@@ -13,6 +13,8 @@
       2. name of .xvg file outputted by GROMACS utility `distance`
       3. name of .xvg file outputted by GROMACS utility `angle`
       4. enter 0 if constant temperature, 1 if simulated annealing
+      5. figure width
+      6. figure height
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    examples: python3 plot_hbond.py \
@@ -20,29 +22,45 @@
              hbond.xvg \
              hbond_angle.xvg \
              0 \
+             4.1 \
+             2.2 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/
-             
-             python3 plot_hbond.py \
-             "unmodified,4 decyls\n(spaced out),4 decyls\n(together),10 decyls,10 ethyls" \
-             hbond.xvg \
-             hbond_angle.xvg \
-             0 \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
              
              python3 plot_hbond.py \
              "(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
              1 \
+             4.1 \
+             2.2 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA3/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/
+             
+             python3 plot_hbond.py \
+             "(a),(b),(c),(d),(e)" \
+             hbond.xvg \
+             hbond_angle.xvg \
+             0 \
+             8.2 \
+             2.2 \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA1/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA3/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA2/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA4/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA5/
+             
+             python3 plot_hbond.py \
+             "(c),(e)" \
+             hbond.xvg \
+             hbond_angle.xvg \
+             0 \
+             3.1 \
+             2.2 \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
 """
 
 import sys
@@ -57,7 +75,9 @@ legend     = input_list.split(',')
 dist_xvg   = str(sys.argv[2])
 ang_xvg    = str(sys.argv[3])
 annealing  = bool(int(sys.argv[4]))
-paths      = list(sys.argv[5:])
+fig_width  = float(sys.argv[5])
+fig_height = float(sys.argv[6])
+paths      = list(sys.argv[7:])
 
 # add trailing forward slash to directory path if necessary
 for path in range(len(paths)):
@@ -200,16 +220,8 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
     # initialize file name
     file_name = "colorplot_hbond_binary.svg"
 
-    # figure dimensions  
-    fig_width  = 8.7
-    fig_height = (fig_width/7.5)
-    fig_height = 2.2
-    fig_width  = (len(hbond_bool_matrix)/5)*(fig_width)
-    fig_width  = 4.1
-    
     if annealing:
-        fig_width = 4.1
-        time      = [t+600 for t in time]
+        time = [t+600 for t in time]
     
     # initialize color bar padding
     padding = 0.03
@@ -278,7 +290,6 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
             
             # change file name
             file_name = "colorplot_hbond_binary_annealing.svg"
-    
 
     # color bar
     cbar = fig.colorbar(pixel_plot, ax=axes, ticks=[0,1], pad=0.3, fraction=0.05, aspect=30, orientation='horizontal')
@@ -351,16 +362,16 @@ def main():
     """
 
     # print statistics
-    frame_200ns = 4000
-    frame_600ns = 12000
+    frame_200ns  = 4000
+    frame_1000ns = 20000
     for i in range(len(n_broken_hbond)):
         print("Average number of melted base pairs for file " + str(i+1) + ": " + str(round(statistics.mean(n_broken_hbond[i]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i]),1)))
     for i in range(len(n_broken_hbond)):
         if len(n_broken_hbond[i]) > frame_200ns+1:
             print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][frame_200ns:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][frame_200ns:]),1)))
     for i in range(len(n_broken_hbond)):
-        if len(n_broken_hbond[i]) > frame_600ns+1:
-            print("Average number of melted base pairs for file " + str(i+1) + " (excluding first 600 ns): " + str(round(statistics.mean(n_broken_hbond[i][frame_600ns:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][frame_600ns:]),1)))
+        if len(n_broken_hbond[i]) > frame_1000ns+1:
+            print("Average number of melted base pairs for file " + str(i+1) + " (only including last 200 ns): " + str(round(statistics.mean(n_broken_hbond[i][frame_1000ns:]),1)) + " +/- " + str(round(statistics.stdev(n_broken_hbond[i][frame_1000ns:]),1)))
 
 if __name__ == "__main__": 
     main()
