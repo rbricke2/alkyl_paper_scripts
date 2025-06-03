@@ -113,7 +113,7 @@ def main():
     font_leg = set_rcParameters()
 
     # set figure dimensions
-    fig, ax = plt.subplots(1, figsize=(8.2, 2.2))
+    fig, ax = plt.subplots(1, figsize=(7, 2.2))
 
     for i in range(len(paths)):
         data = get_data(paths[i]+"L-BPS")
@@ -129,7 +129,8 @@ def main():
         plt.plot(list(data.keys()), moving_average(moving_average(avg_twist, 500), 100), label=legend[i])
 
     # position legend to the left
-    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
+    #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg)
+    plt.legend(loc='best')
 
     # set x-axis label
     plt.xlabel("Simulation time, ns")
@@ -143,7 +144,7 @@ def main():
     plt.tight_layout()
 
     # save figure
-    plt.savefig("twist_plot.png", bbox_inches="tight", dpi=600)
+    plt.savefig("twist_plot.svg", bbox_inches="tight", dpi=600)
 
 if __name__ == "__main__": 
     main()
