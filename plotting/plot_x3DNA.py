@@ -176,7 +176,7 @@ def main():
     ax1.set_ylabel(y_label)
     
     if parameter == "twist":
-    # secondary axis
+        # secondary axis
         ax2 = ax1.secondary_yaxis('right', functions=(forward_inverse, forward_inverse))
 
         # label left y-axis for the middle row
