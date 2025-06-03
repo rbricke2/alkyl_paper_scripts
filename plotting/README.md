@@ -12,4 +12,4 @@ A collection of scripts used to make plots for the paper.
 * `plot_x3DNA.py`: Plots twist angle of the base pairs of DNA, calculated using the <cite>[3DNA][1]</cite> and <cite>[do_x3dna][2]</cite> softwares.
 
 [1]: https://doi.org/10.1093/nar/gkg680
-[2]: https://doi.org/10.1093/nar/gkr288
+[2]: https://doi.org/10.1093/bioinformatics/btv190
