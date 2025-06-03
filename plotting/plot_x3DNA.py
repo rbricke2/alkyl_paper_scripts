@@ -121,7 +121,9 @@ def main():
         # get the average twist per configuration
         avg_twist = []
         for dt in data:
-            avg_twist.append(statistics.mean(data[dt]["twist"]))
+            # exclude first two terminal base pairs
+            n_exclude = 2
+            avg_twist.append(statistics.mean(data[dt]["twist"][n_exclude:-n_exclude]))
 
         # plot data
         plt.plot(list(data.keys()), moving_average(moving_average(avg_twist, 500), 100), label=legend[i])
