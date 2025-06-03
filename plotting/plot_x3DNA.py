@@ -109,19 +109,19 @@ def get_data(file_name):
 ################################################################################################
 
 def main():
-    for i in range(len(paths))
+    # set rcParams
+    font_leg = set_rcParameters()
+
+    # set figure dimensions
+    fig, ax = plt.subplots(1, figsize=(8.2, 5))
+
+    for i in range(len(paths)):
         data = get_data(paths[i]+"L-BPS")
 
         # get the average twist per configuration
         avg_twist = []
         for dt in data:
             avg_twist.append(statistics.mean(data[dt]["twist"]))
-
-        # set rcParams
-        font_leg = set_rcParameters()
-
-        # set figure dimensions
-        fig, ax = plt.subplots(1, figsize=(5, 5))
 
         # plot data
         plt.plot(list(data.keys()), moving_average(moving_average(avg_twist, 500), 100), label=legend[i])
