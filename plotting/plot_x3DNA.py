@@ -113,7 +113,7 @@ def main():
     font_leg = set_rcParameters()
 
     # set figure dimensions
-    fig, ax = plt.subplots(1, figsize=(8.2, 5))
+    fig, ax = plt.subplots(1, figsize=(8.2, 2.2))
 
     for i in range(len(paths)):
         data = get_data(paths[i]+"L-BPS")
@@ -121,9 +121,9 @@ def main():
         # get the average twist per configuration
         avg_twist = []
         for dt in data:
-            # exclude first two terminal base pairs
-            n_exclude = 2
-            avg_twist.append(statistics.mean(data[dt]["twist"][n_exclude:-n_exclude]))
+            # exclude terminal base pairs at each end of the DNA duplex
+            n_bp_excluded = 3
+            avg_twist.append(statistics.mean(data[dt]["twist"][n_bp_excluded:-n_bp_excluded]))
 
         # plot data
         plt.plot(list(data.keys()), moving_average(moving_average(avg_twist, 500), 100), label=legend[i])
