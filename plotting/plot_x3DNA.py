@@ -63,11 +63,19 @@ def normalize_range(old_angle : np.float64, start : float, end : float) -> np.fl
     return new_angle
 
 def get_data(file_name):
-    #Shift     Slide      Rise      Tilt      Roll     Twist
-    dict_temp   = {"shift": [], "slide": [], "rise": [], "tilt": [], "roll": [], "twist": []}
-    parameters  = list(dict_temp.keys())
-    data        = {}
-    time_step   = None
+    # template dictionary
+    dict_temp = {"shift": [], "slide": [], "rise": [], "tilt": [], "roll": [], "twist": []}
+
+    # list of DNA parameters
+    parameters = list(dict_temp.keys())
+
+    # stores the data
+    data = {}
+
+    # records the time step
+    time_step = None
+
+    # iterating over 20 files because I analyzed the 600 ns trajectory in 30 ns intervals
     for i in range(1,21):
         n_skipped = 0
         skipping  = False # skip first time step of every file except the very first file (i.e. ignore repetitive data)
@@ -87,10 +95,11 @@ def get_data(file_name):
                         continue
                     elif not skipping:
                         for j in range(len(parameters)):
+                            param = parameters[j]
                             value = float(line_split[j])
-                            if parameters[j] == "twist":
-                                value = normalize_range(value, 0, 360)
-                            data[time_step][parameters[j]].append(value)
+                            if param == "twist":
+                                value = normalize_range(value, 0, 360) # convert range of angle from [-180, 180] -> [0, 360]
+                            data[time_step][param].append(value)
     return data
 
 ################################################################################################
@@ -102,11 +111,12 @@ def get_data(file_name):
 def main():
     for i in range(len(paths))
         data = get_data(paths[i]+"L-BPS")
-        
+
+        # get the average twist per configuration
         avg_twist = []
         for dt in data:
             avg_twist.append(statistics.mean(data[dt]["twist"]))
-        
+
         # set rcParams
         font_leg = set_rcParameters()
 
@@ -121,7 +131,7 @@ def main():
 
     # set x-axis label
     plt.xlabel("Simulation time, ns")
-        
+
     # set y-axis label
     plt.ylabel("Average twist, degrees")
 
@@ -131,7 +141,7 @@ def main():
     plt.tight_layout()
 
     # save figure
-    plt.savefig("x3DNA_plot.png", bbox_inches="tight", dpi=600)
+    plt.savefig("twist_plot.png", bbox_inches="tight", dpi=600)
 
 if __name__ == "__main__": 
     main()
