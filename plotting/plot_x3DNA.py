@@ -129,12 +129,16 @@ def get_data(file_name):
 
 # this function was grabbed from:
 # https://matplotlib.org/stable/gallery/subplots_axes_and_figures/secondary_axis.html
-def forward_inverse(x):
+def forward(x):
+    """ Vectorized 360/x, treating x==0 manually """
     x = np.array(x, float)
     near_zero = np.isclose(x, 0)
     x[near_zero] = np.inf
     x[~near_zero] = 360 / x[~near_zero]
     return x
+
+# the function "360/x" is its own inverse
+inverse = forward
 
 ################################################################################################
 #
@@ -147,7 +151,7 @@ def main():
     font_leg = set_rcParameters()
 
     # set figure dimensions
-    fig, ax1 = plt.subplots(1, figsize=(7, 1.8))
+    fig, ax1 = plt.subplots(1, figsize=(7.2, 1.8))
 
     for i in range(len(paths)):
         data = get_data(paths[i]+file_prefix)
@@ -177,7 +181,7 @@ def main():
     
     if parameter == "twist":
         # secondary axis
-        ax2 = ax1.secondary_yaxis('right', functions=(forward_inverse, forward_inverse))
+        ax2 = ax1.secondary_yaxis('right', functions=(forward, inverse))
 
         # label left y-axis for the middle row
         ax2.set_ylabel('Helical repeat, bp/turn', rotation=270, va='bottom')
