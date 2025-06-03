@@ -10,15 +10,11 @@
 
    example: python3 plot_x3DNA.py \
             "(a),(b),(c),(d),(e)" \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA1/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA3/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA2/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA4/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA5/
-            
-            python3 plot_x3DNA.py \
-            "(a)" \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_CHARMM/x3DNA/
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA2_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA5_CHARMM/x3DNA/
 """
 
 import sys
@@ -72,7 +68,7 @@ def get_data(file_name):
     parameters  = list(dict_temp.keys())
     data        = {}
     time_step   = None
-    for i in range(1,3):
+    for i in range(1,21):
         n_skipped = 0
         skipping  = False # skip first time step of every file except the very first file (i.e. ignore repetitive data)
         with open(file_name+"_"+str(i)+".dat", "r") as f:
@@ -85,7 +81,7 @@ def get_data(file_name):
                                 skipping = True
                                 n_skipped += 1
                             else:
-                                time_step       = int(float(line_split[3]))
+                                time_step       = float(line_split[3])/1000 # convert ps -> ns
                                 data[time_step] = copy.deepcopy(dict_temp)
                                 skipping        = False
                         continue
@@ -104,16 +100,38 @@ def get_data(file_name):
 ################################################################################################
 
 def main():
-    data_per_dt = 20
-    data = get_data(paths[0]+"L-BPS")
-    print(data[0]["twist"])
-    print(data[30000]["twist"])
-    print(data[30050]["twist"])
-    #for x in data:
-    #    print(x)
-    #    for y in data[x]:
-    #        print(y)
-            #print(y,':',data[x][y])
+    for i in range(len(paths))
+        data = get_data(paths[i]+"L-BPS")
+        
+        avg_twist = []
+        for dt in data:
+            avg_twist.append(statistics.mean(data[dt]["twist"]))
+        
+        # set rcParams
+        font_leg = set_rcParameters()
+
+        # set figure dimensions
+        fig, ax = plt.subplots(1, figsize=(5, 5))
+
+        # plot data
+        plt.plot(list(data.keys()), moving_average(moving_average(avg_twist, 500), 100), label=legend[i])
+
+    # position legend to the left
+    plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg) 
+
+    # set x-axis label
+    plt.xlabel("Simulation time, ns")
+        
+    # set y-axis label
+    plt.ylabel("Average twist, degrees")
+
+    # show grid
+    plt.grid()
+
+    plt.tight_layout()
+
+    # save figure
+    plt.savefig("x3DNA_plot.png", bbox_inches="tight", dpi=600)
 
 if __name__ == "__main__": 
     main()
