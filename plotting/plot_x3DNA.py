@@ -6,12 +6,14 @@
 """
    usage: python3 plot_x3DNA.py
       1. list of model names for legend (must be parallel w.r.t the arguments i to i+n)
-      2. file name
-      3. parameter
+      2. run duration in ns
+      3. file name
+      4. parameter
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
 
    examples: python3 plot_x3DNA.py \
             "(a),(b),(c),(d),(e)" \
+            600 \
             L-BPS \
             twist \
             "Average twist, degrees" \
@@ -23,6 +25,7 @@
             
             python3 plot_x3DNA.py \
             "(a),(b),(c),(d),(e)" \
+            600 \
             L-BPS \
             twist \
             "Average twist, degrees" \
@@ -31,6 +34,16 @@
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA2/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA5/x3DNA/
+            
+            python3 plot_x3DNA.py \
+            "(a),(b),(d)" \
+            1200 \
+            L-BPS \
+            twist \
+            "Average twist, degrees" \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_anneal/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3_anneal/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4_anneal/x3DNA/
 """
 
 import sys
@@ -42,10 +55,11 @@ from functions_for_plots import *
 # command line input
 input_list  = sys.argv[1].replace("\\n", "\n").replace("\\t", "\t").replace("\\(", "(").replace("\\)", ")")
 legend      = input_list.split(',')
-file_prefix = str(sys.argv[2])
-parameter   = str(sys.argv[3])
-y_label     = str(sys.argv[4])
-paths       = list(sys.argv[5:])
+duration    = float(sys.argv[2])
+file_prefix = str(sys.argv[3])
+parameter   = str(sys.argv[4])
+y_label     = str(sys.argv[5])
+paths       = list(sys.argv[6:])
 
 # add trailing forward slash to directory path if necessary
 for path in range(len(paths)):
@@ -91,8 +105,9 @@ def get_data(file_name):
     # records the time step
     time_step = None
 
-    # iterating over 20 files because I analyzed the 600 ns trajectory in 30 ns intervals
-    for i in range(1,21):
+    # iterating over multiple files because I analyzed the trajectory in 30 ns intervals
+    n_files = int(duration/30)
+    for i in range(1,n_files+1):
         n_skipped = 0
         skipping  = False # skip first time step of every file except the very first file (i.e. ignore repetitive data)
         with open(file_name+"_"+str(i)+".dat", "r") as f:
@@ -179,7 +194,10 @@ def main():
     # label right y-axis for the middle row
     ax1.set_ylabel(y_label)
     
-    if parameter == "twist":
+    # return the current y-limit
+    bottom, top = ax1.set_ylim()
+    
+    if (parameter == "twist") and (bottom > 3): # make sure bottom y-limit isn't close to zero... causes secondary axis -> infinity because division by zero
         # secondary axis
         ax2 = ax1.secondary_yaxis('right', functions=(forward, inverse))
 
