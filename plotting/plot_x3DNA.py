@@ -12,38 +12,17 @@
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
 
    examples: python3 plot_x3DNA.py \
-            "(a),(b),(c),(d),(e)" \
+            "(a),(b),(d),(a),(b),(d)" \
             600 \
             L-BPS \
             twist \
-            "Average twist, degrees" \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_CHARMM/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3_CHARMM/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA2_CHARMM/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4_CHARMM/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA5_CHARMM/x3DNA/
-            
-            python3 plot_x3DNA.py \
-            "(a),(b),(c),(d),(e)" \
-            600 \
-            L-BPS \
-            twist \
-            "Average twist, degrees" \
+            "Average twist,\ndegrees" \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA2/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA5/x3DNA/
-            
-            python3 plot_x3DNA.py \
-            "(a),(b),(d)" \
-            1200 \
-            L-BPS \
-            twist \
-            "Average twist, degrees" \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_anneal/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3_anneal/x3DNA/ \
-            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4_anneal/x3DNA/
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4_CHARMM/x3DNA/
 """
 
 import sys
@@ -58,7 +37,7 @@ legend      = input_list.split(',')
 duration    = float(sys.argv[2])
 file_prefix = str(sys.argv[3])
 parameter   = str(sys.argv[4])
-y_label     = str(sys.argv[5])
+y_label     = sys.argv[5].replace("\\n", "\n").replace("\\t", "\t").replace("\\(", "(").replace("\\)", ")")
 paths       = list(sys.argv[6:])
 
 # add trailing forward slash to directory path if necessary
@@ -162,14 +141,25 @@ inverse = forward
 ################################################################################################
 
 def main():
+    # rgb colors used for plots
+    colors = [(0.894, 0.102, 0.11),
+              (0.212, 0.490, 0.714),
+              (0.553, 0.282, 0.592)]
     # set rcParams
     font_leg = set_rcParameters()
 
     # set figure dimensions
-    fig, ax1 = plt.subplots(1, figsize=(7.2, 1.8))
+    fig, axes = plt.subplots(1, 2, sharey=True, figsize=(6.7, 1.4))
 
+    j = 0
     for i in range(len(paths)):
-        data = get_data(paths[i]+file_prefix)
+        path = paths[i]
+        if i < (len(paths)//2):
+            ax1  = axes[0]
+        elif i == (len(paths)//2):
+            ax1 = axes[1]
+            j   = 0
+        data = get_data(path+file_prefix)
 
         # get the average twist per configuration
         avg_param = []
@@ -182,30 +172,43 @@ def main():
                 avg_param.append(statistics.mean(data[dt][parameter]))
 
         # plot data
-        ax1.plot(list(data.keys()), moving_average(moving_average(avg_param, 500), 100), label=legend[i])
+        ax1.plot(list(data.keys()), moving_average(moving_average(avg_param, 500), 100), label=legend[i], color=colors[j])
+        
+        if i == 0:
+            # label leftmost y-axis
+            ax1.set_ylabel(y_label)
+        
+        # return the current y-limit
+        bottom, top = ax1.set_ylim()
+
+        if (parameter == "twist") and (bottom > 3): # make sure bottom y-limit isn't close to zero... causes secondary axis -> infinity because division by zero
+            # secondary axis
+            ax2 = ax1.secondary_yaxis('right', functions=(forward, inverse))
+            
+            ax2.set_yticks(np.array([8,10,12,14,16]))
+
+            if path == paths[-1]:
+                # label left y-axis for the middle row
+                ax2.set_ylabel('Helical repeat,\nbp/turn', rotation=270, va='bottom')
+            else:
+                # remove secondary y-axis tick labels on all plots except for leftmost
+                ax2.set_yticklabels([])
+        
+        # label x-axis
+        ax1.set_xlabel("Simulation time, ns")
+
+        # show grid
+        ax1.grid()
+        
+        # increment color indexer
+        j += 1
+
+    # set the range of y-axis s.t. 10.55 bp/turns is in the middle for all graphs
+    plt.ylim(22, 38)
 
     # position legend to the left
     #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg)
-    plt.legend(loc='best')
-    
-    # set x-axis label
-    plt.xlabel("Simulation time, ns")
-
-    # label right y-axis for the middle row
-    ax1.set_ylabel(y_label)
-    
-    # return the current y-limit
-    bottom, top = ax1.set_ylim()
-    
-    if (parameter == "twist") and (bottom > 3): # make sure bottom y-limit isn't close to zero... causes secondary axis -> infinity because division by zero
-        # secondary axis
-        ax2 = ax1.secondary_yaxis('right', functions=(forward, inverse))
-
-        # label left y-axis for the middle row
-        ax2.set_ylabel('Helical repeat, bp/turn', rotation=270, va='bottom')
-
-    # show grid
-    plt.grid()
+    axes[0].legend(loc='best')
 
     plt.tight_layout()
 

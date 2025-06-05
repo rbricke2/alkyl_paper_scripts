@@ -15,43 +15,36 @@
       4. enter 0 if constant temperature, 1 if simulated annealing
       5. figure width
       6. figure height
+      7. horizontal color bar (1 for yes, 0 for no)
       i. path to directories that contain arguments (2.) and (3.) that you want to plot
    
    examples: python3 plot_hbond.py \
-             "(a),(b),(d)" \
+             "(a),(b),(d),(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
              0 \
-             4.1 \
-             2.2 \
+             9.1 \
+             1 \
+             0 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA3/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA4/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA1/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA3/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA4/
              
              python3 plot_hbond.py \
              "(a),(b),(d)" \
              hbond.xvg \
              hbond_angle.xvg \
              1 \
-             4.1 \
+             6 \
              2.2 \
+             1 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA3/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/
-             
-             python3 plot_hbond.py \
-             "(a),(b),(c),(d),(e)" \
-             hbond.xvg \
-             hbond_angle.xvg \
-             0 \
-             8.2 \
-             2.2 \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA1/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA3/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA2/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA4/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA5/
-             
+     
              python3 plot_hbond.py \
              "(c),(e)" \
              hbond.xvg \
@@ -59,6 +52,7 @@
              0 \
              3.1 \
              2.2 \
+             0 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
 """
@@ -70,14 +64,15 @@ import matplotlib as mpl
 from matplotlib.ticker import FixedLocator
 
 # command line input
-input_list = sys.argv[1].replace("\\n", "\n").replace("\\t", "\t").replace("\\(", "(").replace("\\)", ")")
-legend     = input_list.split(',')
-dist_xvg   = str(sys.argv[2])
-ang_xvg    = str(sys.argv[3])
-annealing  = bool(int(sys.argv[4]))
-fig_width  = float(sys.argv[5])
-fig_height = float(sys.argv[6])
-paths      = list(sys.argv[7:])
+input_list      = sys.argv[1].replace("\\n", "\n").replace("\\t", "\t").replace("\\(", "(").replace("\\)", ")")
+legend          = input_list.split(',')
+dist_xvg        = str(sys.argv[2])
+ang_xvg         = str(sys.argv[3])
+annealing       = bool(int(sys.argv[4]))
+fig_width       = float(sys.argv[5])
+fig_height      = float(sys.argv[6])
+cbar_horizontal = bool(int(sys.argv[7]))
+paths           = list(sys.argv[8:])
 
 # add trailing forward slash to directory path if necessary
 for path in range(len(paths)):
@@ -292,8 +287,13 @@ def plot_color_map(time, hbond_bool_matrix, annealing, font_leg):
             file_name = "colorplot_hbond_binary_annealing.svg"
 
     # color bar
-    cbar = fig.colorbar(pixel_plot, ax=axes, ticks=[0,1], pad=0.3, fraction=0.05, aspect=30, orientation='horizontal')
-    cbar.ax.set_xticklabels(['Hydrogen bonding', 'Broken hydrogen bonding'])
+    if cbar_horizontal:
+        cbar = fig.colorbar(pixel_plot, ax=axes, ticks=[0,1], pad=0.3, fraction=0.05, aspect=30, orientation='horizontal')
+        cbar.ax.set_xticklabels(['Intact', 'Broken'])
+    else:
+        cbar = fig.colorbar(pixel_plot, ax=axes, ticks=[0,1], pad=0.015, aspect=10, orientation='vertical')
+        cbar.ax.set_yticklabels(['Intact', 'Broken'], rotation=270, va='center')
+        
 
     # change font size for color bar
     cbar.ax.tick_params(labelsize=font_size)

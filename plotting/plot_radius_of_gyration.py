@@ -14,7 +14,7 @@
       i. path to .xvg file outputted by GROMACS utility `gyrate` that you want to plot
    
    examples: python3 plot_radius_of_gyration.py \
-             3 \
+             3.7 \
              1.57 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA3/gyrate.xvg \
@@ -23,13 +23,13 @@
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA5/gyrate.xvg
              
              python3 plot_radius_of_gyration.py \
-             6.9 \
-             1.57 \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA1/gyrate.xvg \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA3/gyrate.xvg \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA2/gyrate.xvg \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA4/gyrate.xvg \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/ssDNA5/gyrate.xvg
+             7.1 \
+             3 \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA1/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA3/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA2/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA4/gyrate.xvg \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA5/gyrate.xvg
 """
 
 import sys
