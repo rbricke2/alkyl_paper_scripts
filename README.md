@@ -1,6 +1,6 @@
 # Overview 
 
-A collection of scripts created for alkyl paper.
+A collection of scripts created for alkyl paper. Repository is made by: Rachel Bricker
 
 # Directories
 
