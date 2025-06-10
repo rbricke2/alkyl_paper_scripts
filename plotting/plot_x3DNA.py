@@ -188,7 +188,7 @@ def main():
         bottom, top = ax1.set_ylim()
 
         if (parameter == "twist") and (bottom > 3): # make sure bottom y-limit isn't close to zero... causes secondary axis -> infinity because division by zero
-            # secondary axis
+            # secondary axis (thx to tommy swope for making me aware of the `secondary_yaxis` func)
             ax2 = ax1.secondary_yaxis('right', functions=(forward, inverse))
             
             ax2.set_yticks(np.array([8,10,12,14,16]))
