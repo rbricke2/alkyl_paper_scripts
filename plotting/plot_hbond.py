@@ -38,7 +38,7 @@
              hbond.xvg \
              hbond_angle.xvg \
              1 \
-             6 \
+             4.8 \
              2.2 \
              1 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA1/ \

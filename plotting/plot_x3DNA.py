@@ -16,7 +16,7 @@
             600 \
             L-BPS \
             twist \
-            "Average twist,\ndegrees" \
+            "Average twist\n(degrees)" \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4/x3DNA/ \
@@ -171,8 +171,14 @@ def main():
             else:
                 avg_param.append(statistics.mean(data[dt][parameter]))
 
+        # print statistics
+        print("Average twist for file " + str(i+1) + " (excluding 3 terminal base pairs on each end): " + str(round(statistics.mean(avg_param),1)) + " +/- " + str(round(statistics.stdev(avg_param),1)))
+
+        # get time
+        time = list(data.keys())
+
         # plot data
-        ax1.plot(list(data.keys()), moving_average(moving_average(avg_param, 500), 100), label=legend[i], color=colors[j])
+        ax1.plot(time, moving_average(moving_average(avg_param, 500), 100), label=legend[i], color=colors[j])
         
         if i == 0:
             # label leftmost y-axis
@@ -189,13 +195,16 @@ def main():
 
             if path == paths[-1]:
                 # label left y-axis for the middle row
-                ax2.set_ylabel('Helical repeat,\nbp/turn', rotation=270, va='bottom')
+                ax2.set_ylabel('Helical repeat\n(bp/turn)', rotation=270, va='bottom')
             else:
                 # remove secondary y-axis tick labels on all plots except for leftmost
                 ax2.set_yticklabels([])
         
         # label x-axis
-        ax1.set_xlabel("Simulation time, ns")
+        ax1.set_xlabel("Simulation time (ns)")
+        
+        # set x-axis limits
+        ax1.set_xlim(time[0]-8, time[-1]+8)
 
         # show grid
         ax1.grid()
@@ -203,7 +212,7 @@ def main():
         # increment color indexer
         j += 1
 
-    # set the range of y-axis s.t. 10.55 bp/turns is in the middle for all graphs
+    # set the range of y-axis
     plt.ylim(22, 38)
 
     # position legend to the left
