@@ -23,6 +23,17 @@
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA1_CHARMM/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA3_CHARMM/x3DNA/ \
             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA4_CHARMM/x3DNA/
+            
+            python3 plot_x3DNA.py \
+            "(c),(e),(c),(e)" \
+            600 \
+            L-BPS \
+            twist \
+            "Average twist\n(degrees)" \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA2/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA5/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA2_CHARMM/x3DNA/ \
+            /mnt/c/Users/brick/Documents/alkyl_chain_stuff/movies_gifs_pictures/dsDNA5_CHARMM/x3DNA/
 """
 
 import sys
@@ -142,23 +153,25 @@ inverse = forward
 
 def main():
     # rgb colors used for plots
-    colors = [(0.894, 0.102, 0.11),
-              (0.212, 0.490, 0.714),
-              (0.553, 0.282, 0.592)]
+    colors = {"(a)": (0.894, 0.102, 0.11),
+              "(b)": (0.212, 0.490, 0.714),
+              "(c)": (0.302, 0.686, 0.29),
+              "(d)": (0.553, 0.282, 0.592),
+              "(e)": (1,     0.498, 0) 
+    }
+
     # set rcParams
     font_leg = set_rcParameters()
 
     # set figure dimensions
     fig, axes = plt.subplots(1, 2, sharey=True, figsize=(6.7, 1.4))
 
-    j = 0
     for i in range(len(paths)):
         path = paths[i]
         if i < (len(paths)//2):
-            ax1  = axes[0]
+            ax1 = axes[0]
         elif i == (len(paths)//2):
             ax1 = axes[1]
-            j   = 0
         data = get_data(path+file_prefix)
 
         # get the average twist per configuration
@@ -172,25 +185,26 @@ def main():
                 avg_param.append(statistics.mean(data[dt][parameter]))
 
         # print statistics
-        print("Average twist for file " + str(i+1) + " (excluding 3 terminal base pairs on each end): " + str(round(statistics.mean(avg_param),1)) + " +/- " + str(round(statistics.stdev(avg_param),1)))
+        frame_200ns  = 4000
+        print("Average twist for file " + str(i+1) + " (excluding 3 terminal base pairs on each end and first 200 ns): " + str(round(statistics.mean(avg_param[frame_200ns:]),1)) + " +/- " + str(round(statistics.stdev(avg_param[frame_200ns:]),1)))
 
         # get time
         time = list(data.keys())
 
         # plot data
-        ax1.plot(time, moving_average(moving_average(avg_param, 500), 100), label=legend[i], color=colors[j])
-        
+        ax1.plot(time, moving_average(moving_average(avg_param, 500), 100), label=legend[i], color=colors[legend[i]])
+
         if i == 0:
             # label leftmost y-axis
             ax1.set_ylabel(y_label)
-        
+
         # return the current y-limit
         bottom, top = ax1.set_ylim()
 
         if (parameter == "twist") and (bottom > 3): # make sure bottom y-limit isn't close to zero... causes secondary axis -> infinity because division by zero
             # secondary axis (thx to tommy swope for making me aware of the `secondary_yaxis` func)
             ax2 = ax1.secondary_yaxis('right', functions=(forward, inverse))
-            
+
             ax2.set_yticks(np.array([8,10,12,14,16]))
 
             if path == paths[-1]:
@@ -199,24 +213,20 @@ def main():
             else:
                 # remove secondary y-axis tick labels on all plots except for leftmost
                 ax2.set_yticklabels([])
-        
+
         # label x-axis
         ax1.set_xlabel("Simulation time (ns)")
-        
+
         # set x-axis limits
         ax1.set_xlim(time[0]-8, time[-1]+8)
 
         # show grid
-        ax1.grid()
-        
-        # increment color indexer
-        j += 1
+        ax1.grid(True)
 
     # set the range of y-axis
     plt.ylim(22, 38)
 
-    # position legend to the left
-    #plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg)
+    # legend position
     axes[0].legend(loc='best')
 
     plt.tight_layout()
