@@ -110,6 +110,7 @@ def main():
     # save figure
     plt.savefig("soumya_scatterplot.svg", bbox_inches="tight", dpi = 600)
 
+    """
     ################################################
     # plot derivative curves
 
@@ -170,6 +171,9 @@ def main():
 
         # set title
         axes[i].set_title(titles[i])
+        
+        # change x-axis range
+        #axes[i].set_xlim((-0.5,30))
 
     # add a big axis and hide frame for common x-axis label
     fig.add_subplot(111, frameon=False)
@@ -184,6 +188,7 @@ def main():
 
     # save figure
     plt.savefig("derivative.svg", bbox_inches="tight", dpi=600)
+    """
 
 if __name__ == "__main__": 
     main()
