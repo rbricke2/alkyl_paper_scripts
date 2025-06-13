@@ -4,7 +4,7 @@
 """
 
 """
-    Creates index files 'hbond_dist.ndx' and 'hbond_angle.ndx' which will be used as input for GROMACS utilities 'distance' and 'angle', respectively.
+    Creates index files 'hbond_dist.ndx' and 'hbond_angle.ndx' which are used as input for GROMACS utilities 'distance' and 'angle', respectively.
     
     THIS CODE REQUIRES:
         * ENERGY MINIMIZATION TO BE PERFORMED. HENCE, IT USES THE .gro FILE OUTPUTTED BY THE
