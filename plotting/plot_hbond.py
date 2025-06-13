@@ -46,15 +46,17 @@
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/annealing_AMBER/dsDNA4/
      
              python3 plot_hbond.py \
-             "(c),(e)" \
+             "(c),(e),(c),(e)" \
              hbond.xvg \
              hbond_angle.xvg \
              0 \
-             3.1 \
-             2.2 \
+             9.1 \
+             1 \
              0 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA2/ \
-             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/dsDNA5/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA2/ \
+             /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/CHARMM36/dsDNA5/
 """
 
 import sys

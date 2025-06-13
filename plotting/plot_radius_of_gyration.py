@@ -24,7 +24,7 @@
              
              python3 plot_radius_of_gyration.py \
              7.1 \
-             3 \
+             2.5 \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA1/gyrate.xvg \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA3/gyrate.xvg \
              /mnt/c/Users/brick/Documents/alkyl_chain_stuff/GROMACS_files/AMBER/ssDNA2/gyrate.xvg \
@@ -103,7 +103,7 @@ def main():
     plt.tight_layout()
 
     # save figure
-    plt.savefig("fig4_gyrate.svg", bbox_inches="tight", dpi=600)
+    plt.savefig("gyrate_plot.svg", bbox_inches="tight", dpi=600)
     
     # print statistics
     for i in range(len(gyrate)):
