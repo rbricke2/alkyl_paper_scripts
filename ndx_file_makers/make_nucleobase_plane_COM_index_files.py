@@ -4,7 +4,7 @@
 """
 
 """
-    Creates index files 'nucleobase_vec_atoms.ndx' and 'nucleobase_COM_atoms.ndx' which will be used as input for GROMACS utility 'traj'.
+    Creates index files 'nucleobase_vec_atoms.ndx' and 'nucleobase_COM_atoms.ndx' which are used as input for GROMACS utility 'traj'.
     
     THIS CODE REQUIRES:
         * ENERGY MINIMIZATION TO BE PERFORMED. HENCE, IT USES THE .gro FILE OUTPUTTED BY THE
