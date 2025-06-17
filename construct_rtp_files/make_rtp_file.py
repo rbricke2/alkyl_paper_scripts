@@ -6,7 +6,7 @@
 """
     Makes .rtp files of nucleotides containing an alkyl-phosphate: guanine, cytosine, adenine, and thymine with decyl- or ethyl-phosphate.
     
-    Assumes the following files are in the working directory:
+    Assumes the following files are in the working directory (.mol2 files are used solely to recover atom names):
         * DP0.mol2 : input CGenFF file of dimethyl decyl-phosphate (modification located on non-bridging oxygen O2P)
         * DP0.rtp  : output CGenFF file of dimethyl decyl-phosphate (modification located on non-bridging oxygen O2P);
                      file is located in the GROMACS format folder
