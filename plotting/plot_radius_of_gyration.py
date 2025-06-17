@@ -106,11 +106,13 @@ def main():
     plt.savefig("gyrate_plot.svg", bbox_inches="tight", dpi=600)
     
     # print statistics
+    frame_200ns  = 4000
+    rounding     = 2
     for i in range(len(gyrate)):
-        print("Average radius of gyration value for file " + str(i+1) + ": " + str(round(statistics.mean(gyrate[i]),3)) + " +/- " + str(round(statistics.stdev(gyrate[i]),3)))
+        print("Average radius of gyration value for file " + str(i+1) + ": " + str(round(statistics.mean(gyrate[i]),rounding)) + " +/- " + str(round(statistics.stdev(gyrate[i]),rounding)))
         
     for i in range(len(gyrate)):
-        print("Average radius of gyration value for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(gyrate[i][4000:]),3)) + " +/- " + str(round(statistics.stdev(gyrate[i][4000:]),3)))
+        print("Average radius of gyration value for file " + str(i+1) + " (excluding first 200 ns): " + str(round(statistics.mean(gyrate[i][frame_200ns:]),rounding)) + " +/- " + str(round(statistics.stdev(gyrate[i][frame_200ns:]),rounding)))
 
 if __name__ == "__main__": 
     main()

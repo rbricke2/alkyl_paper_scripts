@@ -77,11 +77,11 @@ def main():
     # plot scatter plot
     
     # data
-    x  = [   0,  1,  2,  4,  6,  8, 10]
-    y1 = [  70, 69, 68, 66, 65, 63, 62]
-    y2 = [None, 61, 58, 55, 52, 47, 43]
-    y3 = [None, 61, 58, 54, 51, 45, 42]
-    y4 = [None, 61, 58, 53, 45, 43, 40]
+    x  = [   0,  1,  2,  4,  6,    8,   10]
+    y1 = [  70, 69, 68, 66, 65,   63,   62]
+    y2 = [None, 61, 58, 55, 52,   47,   43]
+    y3 = [None, 61, 58, 54, 51,   45,   42]
+    y4 = [None, 61, 58, 53, 45, None, None]
 
     # initialize figure
     fig, ax = plt.subplots(1, figsize=(fig_width, fig_height))
