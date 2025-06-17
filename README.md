@@ -1,6 +1,6 @@
 # Overview 
 
-A collection of scripts created for alkyl paper. Repository is made by: Rachel Bricker
+A collection of scripts created for "DNA Denatures with Excessive Phosphorothioate Alkylation". This repository was made by Rachel Bricker.
 
 # Directories
 
