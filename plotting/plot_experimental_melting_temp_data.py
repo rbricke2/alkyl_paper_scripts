@@ -57,7 +57,7 @@ def main():
     
     # label axes
     plt.xlabel("Modification pattern") 
-    plt.ylabel("$T_m$ (${}^{\circ}$C)") 
+    plt.ylabel(r"$T_m$ (${}^{\circ}$C)") 
 
     # give legend information
     legend = plt.legend(["Butyl", "Heptyl", "Decyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg, frameon=False)
@@ -94,7 +94,7 @@ def main():
     
     # label axes
     plt.xlabel("Number of phosphorothioates") 
-    plt.ylabel("$T_m$ (${}^{\circ}$C)") 
+    plt.ylabel(r"$T_m$ (${}^{\circ}$C)") 
 
     # give legend information
     plt.legend(["Unmodified", "Butyl", "Pentyl", "Heptyl"], loc='center left', bbox_to_anchor=(1, 0.5), prop=font_leg, frameon=False) 
@@ -192,4 +192,5 @@ def main():
 
 if __name__ == "__main__": 
     main()
+
 
